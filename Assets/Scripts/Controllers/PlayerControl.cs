@@ -6,7 +6,7 @@ public class PlayerControl : MonoBehaviour
 {
     PlayerMovement _mover;
     MobileInputs _mobileInput;
-
+    Rigidbody rig;
 
     private bool dragStarted;
     private bool isMoving;
@@ -15,6 +15,7 @@ public class PlayerControl : MonoBehaviour
     {
         _mover = GetComponent<PlayerMovement>();
         _mobileInput = new MobileInputs();
+        rig = GetComponent<Rigidbody>();
     }
 
     void Update()
@@ -41,7 +42,10 @@ public class PlayerControl : MonoBehaviour
                 isMoving = false;
                 dragStarted = false;
             }
+        }
 
+        if (dragStarted)
+        {
             _mover.Move();
             _mover.Rotate();
         }
