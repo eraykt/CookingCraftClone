@@ -5,11 +5,14 @@ using UnityEngine;
 public class MineController : MonoBehaviour
 {
     public int index { get; set; }
+    public bool isCollecting { get; private set; }
 
     public float speed;
     public float CollectingSpeed;
 
-    Coroutine generator, collecting;
+    Coroutine generator, collecting, stacks;
+
+    [SerializeField] PlayerControl player;
 
     private void Start()
     {
@@ -30,6 +33,7 @@ public class MineController : MonoBehaviour
 
     IEnumerator Collecting()
     {
+        isCollecting = true;
         while (index > 0)
         {
             yield return new WaitForSeconds(CollectingSpeed);
@@ -39,24 +43,25 @@ public class MineController : MonoBehaviour
         }
     }
 
-
-    //private void OnTriggerStay(Collider other)
-    //{
-    //    if (other.gameObject.CompareTag("Player"))
-    //    {
-    //        StartCoroutine(Collecting());
-    //    }
-    //}
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            StopCoroutine(generator);
-            collecting = StartCoroutine(Collecting());
+            if (player.index < player.maxStack)
+            {
+                StopCoroutine(generator);
+                collecting = StartCoroutine(Collecting());
+                stacks = StartCoroutine(player.Stack());
+            }
+
+            else
+            {
+                StopCoroutine(collecting);
+                StopCoroutine(stacks);
+                generator = StartCoroutine(Generator());
+                isCollecting = false;
+            }
         }
-
-
     }
 
     private void OnTriggerExit(Collider other)
@@ -65,7 +70,9 @@ public class MineController : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             StopCoroutine(collecting);
+            StopCoroutine(stacks);
             generator = StartCoroutine(Generator());
+            isCollecting = false;
         }
 
     }

@@ -7,9 +7,16 @@ public class PlayerControl : MonoBehaviour
     PlayerMovement _mover;
     MobileInputs _mobileInput;
     Rigidbody rig;
+    [SerializeField] MineController _mine;
+
+    public int maxStack = 4;
+
+    [SerializeField] Transform stackTransform;
+    public int index;
 
     private bool dragStarted;
     private bool isMoving;
+
 
 
     private void Awake()
@@ -50,9 +57,19 @@ public class PlayerControl : MonoBehaviour
             _mover.Move();
             _mover.Rotate();
         }
+
+
     }
 
-   
+    public IEnumerator Stack()
+    {
+        while (index < maxStack)
+        {
+            yield return new WaitForSeconds(_mine.CollectingSpeed);
+            index++;
+            stackTransform.GetChild(index).gameObject.SetActive(true);
+            yield return null;
 
-    
+        }
+    }
 }
