@@ -2240,6 +2240,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 0.5
   CollectingSpeed: 0.6
+  player: {fileID: 1673681319}
 --- !u!65 &952204713
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3671,6 +3672,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e90307ffe2b4254e82a4be6cb696cec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _mine: {fileID: 952204712}
+  maxStack: 4
+  stackTransform: {fileID: 1377661553}
+  index: 0
 --- !u!114 &1673681320
 MonoBehaviour:
   m_ObjectHideFlags: 0
