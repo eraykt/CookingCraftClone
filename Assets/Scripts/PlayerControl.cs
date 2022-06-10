@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerControl : MonoBehaviour
 {
     [SerializeField] private float movementSpeed;
-    [SerializeField] private float rotationSpeed= 500f;
+    [SerializeField] private float rotationSpeed = 500f;
 
     private Touch touch;
 
@@ -15,19 +15,12 @@ public class PlayerControl : MonoBehaviour
     private bool dragStarted;
     private bool isMoving;
 
-
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
         if (Input.touchCount > 0)
         {
             touch = Input.GetTouch(0);
-            if (touch.phase== TouchPhase.Began)
+            if (touch.phase == TouchPhase.Began)
             {
                 dragStarted = true;
                 isMoving = true;
@@ -48,7 +41,7 @@ public class PlayerControl : MonoBehaviour
                 dragStarted = false;
             }
             gameObject.transform.rotation = Quaternion.RotateTowards(transform.rotation, CalculateRotation(), rotationSpeed * Time.deltaTime);
-            gameObject.transform.Translate(Vector3.forward * movementSpeed * Time.deltaTime);
+            gameObject.transform.Translate(new Vector3(-1, 0, 1) * movementSpeed * Time.deltaTime); ;
         }
     }
     Quaternion CalculateRotation()
