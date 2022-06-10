@@ -11,6 +11,7 @@ public class PlayerControl : MonoBehaviour
     private bool dragStarted;
     private bool isMoving;
 
+
     private void Awake()
     {
         _mover = GetComponent<PlayerMovement>();
@@ -51,5 +52,7 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
+   
 
+    
 }
