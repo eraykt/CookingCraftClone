@@ -7,16 +7,18 @@ public class MineController : MonoBehaviour
     public int index { get; set; }
     public bool isCollecting { get; private set; }
 
-    public float speed;
-    public float CollectingSpeed;
+    public float generatingSpeed = 0.5f;
+    public float collectingSpeed = 0.6f;
+    public float arrivingTime = 5f;
+    int generated;
 
-    Coroutine generator, collecting, stacks;
+    Coroutine collecting, stacks;
 
     [SerializeField] PlayerControl player;
 
     private void Start()
     {
-        generator = StartCoroutine(Generator());
+        StartCoroutine(Generator());
     }
 
 
@@ -24,9 +26,13 @@ public class MineController : MonoBehaviour
     {
         while (index < transform.childCount)
         {
-            yield return new WaitForSeconds(speed);
+            yield return new WaitForSeconds(generatingSpeed);
             transform.GetChild(index).gameObject.SetActive(true);
-            index++;
+            index++; generated++;
+
+            if (generated % 9 == 0)
+                yield return new WaitForSeconds(arrivingTime);
+
             yield return null;
         }
     }
@@ -36,9 +42,12 @@ public class MineController : MonoBehaviour
         isCollecting = true;
         while (index > 0)
         {
-            yield return new WaitForSeconds(CollectingSpeed);
+            yield return new WaitForSeconds(collectingSpeed);
             index--;
             transform.GetChild(index).gameObject.SetActive(false);
+            if (GameManager.Instance.PlayerStack == GameManager.Instance.PlayerStackLimit - 1)
+                break;
+
             yield return null;
         }
     }
@@ -47,9 +56,8 @@ public class MineController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            if (player.index < player.maxStack)
+            if (GameManager.Instance.PlayerStack < GameManager.Instance.PlayerStackLimit)
             {
-                StopCoroutine(generator);
                 collecting = StartCoroutine(Collecting());
                 stacks = StartCoroutine(player.Stack());
             }
@@ -58,7 +66,6 @@ public class MineController : MonoBehaviour
             {
                 StopCoroutine(collecting);
                 StopCoroutine(stacks);
-                generator = StartCoroutine(Generator());
                 isCollecting = false;
             }
         }
@@ -66,14 +73,11 @@ public class MineController : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        Debug.Log($"{other.name}");
         if (other.gameObject.CompareTag("Player"))
         {
             StopCoroutine(collecting);
             StopCoroutine(stacks);
-            generator = StartCoroutine(Generator());
             isCollecting = false;
         }
-
     }
 }

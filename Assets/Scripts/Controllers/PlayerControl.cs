@@ -4,26 +4,27 @@ using UnityEngine;
 
 public class PlayerControl : MonoBehaviour
 {
+    #region Player Movement Scripts 
+
     PlayerMovement _mover;
     MobileInputs _mobileInput;
-    Rigidbody rig;
+
+    #endregion
+
     [SerializeField] MineController _mine;
-
-    public int maxStack = 4;
-
     [SerializeField] Transform stackTransform;
-    public int index;
+    
+    #region Player Movement Bools
 
     private bool dragStarted;
     private bool isMoving;
 
-
+    #endregion
 
     private void Awake()
     {
         _mover = GetComponent<PlayerMovement>();
         _mobileInput = new MobileInputs();
-        rig = GetComponent<Rigidbody>();
     }
 
     void Update()
@@ -36,6 +37,7 @@ public class PlayerControl : MonoBehaviour
                 _mover.FirstTouch();
             }
         }
+        
         if (isMoving)
         {
             if (_mobileInput.touch.phase == TouchPhase.Moved)
@@ -63,11 +65,11 @@ public class PlayerControl : MonoBehaviour
 
     public IEnumerator Stack()
     {
-        while (index < maxStack)
+        while (GameManager.Instance.PlayerStack < GameManager.Instance.PlayerStackLimit)
         {
-            yield return new WaitForSeconds(_mine.CollectingSpeed);
-            index++;
-            stackTransform.GetChild(index).gameObject.SetActive(true);
+            yield return new WaitForSeconds(_mine.collectingSpeed);
+            stackTransform.GetChild(GameManager.Instance.PlayerStack).gameObject.SetActive(true);
+            GameManager.Instance.PlayerStack++;
             yield return null;
 
         }

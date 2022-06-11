@@ -6,7 +6,12 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    public static int mine { get; set; }
+    #region Player Stack Variables
+    //----------------------
+    public int PlayerStack { get; set; }
+    public int PlayerStackLimit { get; set; } = 4;
+    //----------------------
+    #endregion
 
     private void Awake()
     {
