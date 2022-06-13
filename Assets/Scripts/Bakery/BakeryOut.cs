@@ -2,46 +2,58 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MineController : MonoBehaviour
+public class BakeryOut : MonoBehaviour
 {
-    public int index { get; set; }
-    public bool isCollecting { get; private set; }
+    int cookedIndex;
 
-    public float arrivingTime = 5f;
-    int generated;
+    [SerializeField] int max;
+    [SerializeField] Transform mealTransform;
+
+    BakeryIn bakeryIn;
+
+    public float generatingSpeed = 3f;
+    public bool CanCook = true;
+    
+    public int meal;
 
     Coroutine collecting, stacks;
 
-
     private void Start()
     {
-        StartCoroutine(Generator());
+        bakeryIn = transform.parent.GetComponentInChildren<BakeryIn>();
     }
 
-
-    IEnumerator Generator()
+    private void Update()
     {
-        while (index < transform.childCount)
+        if (meal > 0)
         {
-            yield return new WaitForSeconds(GameManager.Instance.generatingSpeed);
-            transform.GetChild(index).gameObject.SetActive(true);
-            index++; generated++;
-
-            if (generated % 9 == 0)
-                yield return new WaitForSeconds(arrivingTime);
-
-            yield return null;
+            if (CanCook)
+            {
+                CanCook = false;
+                StartCoroutine(Generator());
+            }
         }
     }
 
+    IEnumerator Generator()
+    {
+        yield return new WaitForSeconds(generatingSpeed);
+        bakeryIn.current--;
+        mealTransform.transform.GetChild(cookedIndex).gameObject.SetActive(true);
+        cookedIndex++;
+        meal--;
+        CanCook = true;
+        yield return null;
+    }
+
+
     IEnumerator Collecting()
     {
-        isCollecting = true;
-        while (index > 0)
+        while (cookedIndex > 0)
         {
             yield return new WaitForSeconds(GameManager.Instance.collectingSpeed);
-            index--;
-            transform.GetChild(index).gameObject.SetActive(false);
+            cookedIndex--;
+            mealTransform.transform.GetChild(cookedIndex).gameObject.SetActive(false);
             if (GameManager.Instance.PlayerStack == GameManager.Instance.PlayerStackLimit - 1)
                 break;
 
@@ -56,14 +68,13 @@ public class MineController : MonoBehaviour
             if (GameManager.Instance.PlayerStack < GameManager.Instance.PlayerStackLimit)
             {
                 collecting = StartCoroutine(Collecting());
-                stacks = StartCoroutine(PlayerStacks.StackInstance.AddStack(0));
+                stacks = StartCoroutine(PlayerStacks.StackInstance.AddStack(1));
             }
 
             else
             {
                 StopCoroutine(collecting);
                 StopCoroutine(stacks);
-                isCollecting = false;
             }
         }
     }
@@ -74,7 +85,8 @@ public class MineController : MonoBehaviour
         {
             StopCoroutine(collecting);
             StopCoroutine(stacks);
-            isCollecting = false;
         }
     }
+
+
 }
