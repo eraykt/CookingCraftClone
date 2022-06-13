@@ -14,7 +14,7 @@ public class MineController : MonoBehaviour
 
     Coroutine collecting, stacks;
 
-    [SerializeField] PlayerControl player;
+    [SerializeField] PlayerStacks pstack;
 
     private void Start()
     {
@@ -59,7 +59,7 @@ public class MineController : MonoBehaviour
             if (GameManager.Instance.PlayerStack < GameManager.Instance.PlayerStackLimit)
             {
                 collecting = StartCoroutine(Collecting());
-                stacks = StartCoroutine(player.Stack());
+                stacks = StartCoroutine(pstack.AddStack());
             }
 
             else

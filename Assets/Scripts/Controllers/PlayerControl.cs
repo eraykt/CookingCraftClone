@@ -12,8 +12,9 @@ public class PlayerControl : MonoBehaviour
     #endregion
 
     [SerializeField] MineController _mine;
-    [SerializeField] Transform stackTransform;
-    
+
+   
+
     #region Player Movement Bools
 
     private bool dragStarted;
@@ -37,7 +38,7 @@ public class PlayerControl : MonoBehaviour
                 _mover.FirstTouch();
             }
         }
-        
+
         if (isMoving)
         {
             if (_mobileInput.touch.phase == TouchPhase.Moved)
@@ -63,15 +64,5 @@ public class PlayerControl : MonoBehaviour
 
     }
 
-    public IEnumerator Stack()
-    {
-        while (GameManager.Instance.PlayerStack < GameManager.Instance.PlayerStackLimit)
-        {
-            yield return new WaitForSeconds(_mine.collectingSpeed);
-            stackTransform.GetChild(GameManager.Instance.PlayerStack).gameObject.SetActive(true);
-            GameManager.Instance.PlayerStack++;
-            yield return null;
-
-        }
-    }
+   
 }
