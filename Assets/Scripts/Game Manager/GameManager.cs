@@ -14,7 +14,8 @@ public class GameManager : MonoBehaviour
     #endregion
 
     public float generatingSpeed = 0.5f;
-    public float collectingSpeed = 0.6f;
+    public float collectingSpeed = 0.2f;
+    public float puttingSpeed = 0.2f;
 
 
     private void Awake()

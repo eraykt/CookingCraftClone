@@ -6,18 +6,21 @@ public class BakeryIn : MonoBehaviour
 {
     public int current;
     [SerializeField] int max;
-
     [SerializeField] BakeryOut bakeryOut;
 
+
+
+
+    float timer;
+
+
+    bool isCollecting;
     private void Start()
     {
         bakeryOut = transform.parent.GetComponentInChildren<BakeryOut>();
+        timer = GameManager.Instance.puttingSpeed;
     }
 
-
-    float timer = 0.6f;
-
-    bool isCollecting;
 
     private void Update()
     {
@@ -59,7 +62,7 @@ public class BakeryIn : MonoBehaviour
             current++;
             PlayerStacks.StackInstance.RemoveStack();
             bakeryOut.meal++;
-            timer = 0.6f;
+            timer = GameManager.Instance.puttingSpeed;
         }
 
         if (current == max)

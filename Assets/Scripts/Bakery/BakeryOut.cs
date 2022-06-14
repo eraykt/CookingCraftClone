@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BakeryOut : MonoBehaviour
 {
-    int cookedIndex;
+    public int cookedIndex;
 
     [SerializeField] int max;
     [SerializeField] Transform mealTransform;
@@ -13,7 +13,8 @@ public class BakeryOut : MonoBehaviour
 
     public float generatingSpeed = 3f;
     public bool CanCook = true;
-    
+    bool canCollect;
+
     public int meal;
 
     Coroutine collecting, stacks;
@@ -43,6 +44,7 @@ public class BakeryOut : MonoBehaviour
         cookedIndex++;
         meal--;
         CanCook = true;
+        canCollect = true;
         yield return null;
     }
 
@@ -52,7 +54,7 @@ public class BakeryOut : MonoBehaviour
         while (cookedIndex > 0)
         {
             yield return new WaitForSeconds(GameManager.Instance.collectingSpeed);
-            cookedIndex--;
+            cookedIndex--; canCollect = false;
             mealTransform.transform.GetChild(cookedIndex).gameObject.SetActive(false);
             if (GameManager.Instance.PlayerStack == GameManager.Instance.PlayerStackLimit - 1)
                 break;
@@ -67,11 +69,14 @@ public class BakeryOut : MonoBehaviour
         {
             if (GameManager.Instance.PlayerStack < GameManager.Instance.PlayerStackLimit)
             {
-                collecting = StartCoroutine(Collecting());
-                stacks = StartCoroutine(PlayerStacks.StackInstance.AddStack(1));
+                if (cookedIndex > 0 && mealTransform.transform.GetChild(0).gameObject.activeSelf)
+                {
+                    collecting = StartCoroutine(Collecting());
+                    stacks = StartCoroutine(PlayerStacks.StackInstance.AddStack(1));
+                }
             }
 
-            else
+            else if (collecting != null && stacks != null)
             {
                 StopCoroutine(collecting);
                 StopCoroutine(stacks);
@@ -79,14 +84,43 @@ public class BakeryOut : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit(Collider other)
+
+    private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            StopCoroutine(collecting);
-            StopCoroutine(stacks);
+            if (cookedIndex > 0 && (GameManager.Instance.PlayerStack < GameManager.Instance.PlayerStackLimit))
+            {
+                if (canCollect)
+                {
+                    canCollect = false;
+                    collecting = StartCoroutine(Collecting());
+                    stacks = StartCoroutine(PlayerStacks.StackInstance.AddStack(1));
+                }
+            }
+
+            if (cookedIndex == 0 && collecting != null && stacks != null)
+            {
+                StopCoroutine(collecting);
+                StopCoroutine(stacks);
+            }
+
+            
         }
     }
 
 
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            if (collecting != null && stacks != null)
+            {
+                StopCoroutine(collecting);
+                StopCoroutine(stacks);
+            }
+
+        }
+    }
 }
