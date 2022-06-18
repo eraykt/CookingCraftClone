@@ -38,7 +38,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void Move()
     {
-        gameObject.transform.Translate(new Vector3(-1, 0, 1) * movementSpeed * Time.deltaTime);
+        gameObject.transform.Translate(new Vector3(-1, 0, -1) * movementSpeed * Time.deltaTime);
     }
 
     public void Rotate()
