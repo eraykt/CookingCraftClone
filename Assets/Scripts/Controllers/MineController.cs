@@ -21,15 +21,19 @@ public class MineController : MonoBehaviour
 
     IEnumerator Generator()
     {
-        while (index < transform.childCount)
+        while (true)
         {
-            yield return new WaitForSeconds(GameManager.Instance.generatingSpeed);
-            transform.GetChild(index).gameObject.SetActive(true);
-            index++; generated++;
+            if (index < transform.childCount)
+            {
+                yield return new WaitForSeconds(GameManager.Instance.generatingSpeed);
+                transform.GetChild(index).gameObject.SetActive(true);
+                index++; generated++;
 
-            if (generated % 9 == 0)
-                yield return new WaitForSeconds(arrivingTime);
+                if (generated % 9 == 0)
+                    yield return new WaitForSeconds(arrivingTime);
 
+                yield return null;
+            }
             yield return null;
         }
     }
