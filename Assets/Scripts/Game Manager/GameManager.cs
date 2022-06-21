@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
-
+    public int coin;
     #region Player Stack Variables
     //----------------------
     public int PlayerStack { get; set; }
