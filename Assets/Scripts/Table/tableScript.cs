@@ -8,34 +8,38 @@ public class tableScript : MonoBehaviour
     bool isCollecting;
     public int tableCoin = 0;
     public int gerekliCoin = 10;
-    public GameObject Table,Player;
+    public GameObject Table, Player;
     private bool isTriggered = false;
+
+    Coroutine putcoin;
+
     [SerializeField]
     private Vector3 scaleChange;
     // Start is called before the first frame update
     void Start()
     {
         scaleChange = new Vector3(1, 0, 1);
-        StartCoroutine(putCoin());
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
     private void OnTriggerEnter(Collider col)
     {
-        if (col.gameObject.tag=="Player")
+        if (col.gameObject.tag == "Player")
         {
             if (!jobDone)
             {
                 Table.transform.localScale = scaleChange * 2;
+                putcoin = StartCoroutine(putCoin());
+
             }
-            
-            isCollecting=true;
+
+            isCollecting = true;
         }
-        
+
     }
     private void OnTriggerExit(Collider col)
     {
@@ -45,6 +49,12 @@ public class tableScript : MonoBehaviour
             if (!jobDone)
             {
                 Table.transform.localScale = scaleChange;
+                StopCoroutine(putcoin);
+            }
+
+            if (putcoin != null && jobDone)
+            {
+                StopCoroutine(putcoin);
             }
             isCollecting = false;
 
@@ -54,13 +64,17 @@ public class tableScript : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            
+
             if (tableCoin == gerekliCoin && !jobDone)
             {
+                isCollecting = false;
                 this.gameObject.transform.GetChild(1).gameObject.SetActive(true);
                 Destroy(this.gameObject.transform.GetChild(0).gameObject);
                 jobDone = true;
-                StopCoroutine(putCoin());
+                if (putcoin != null)
+                {
+                    StopCoroutine(putCoin());
+                }
 
             }
         }
@@ -69,16 +83,12 @@ public class tableScript : MonoBehaviour
     {
         while (true)
         {
-            Debug.Log("0");
             if (isCollecting == true)
             {
-                Debug.Log("1");
                 if (tableCoin < gerekliCoin)
                 {
-                    Debug.Log("2");
-                    if (GameManager.Instance.coin >0)
+                    if (GameManager.Instance.coin > 0)
                     {
-                        Debug.Log("3");
                         GameManager.Instance.coin--;
                         tableCoin++;
                     }

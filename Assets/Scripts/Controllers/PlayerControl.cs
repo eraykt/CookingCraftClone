@@ -22,10 +22,13 @@ public class PlayerControl : MonoBehaviour
 
     #endregion
 
+    PlayerAnimations _anim;
+
     private void Awake()
     {
         _mover = GetComponent<PlayerMovement>();
         _mobileInput = new MobileInputs();
+        _anim = GetComponent<PlayerAnimations>();
     }
 
     void Update()
@@ -61,14 +64,11 @@ public class PlayerControl : MonoBehaviour
             _mover.Rotate();
         }
 
-        RunningAnimation();
+        _anim.RunningAnimation(dragStarted);
         
 
     }
 
-    private void RunningAnimation()
-    {
-        GetComponent<Animator>().SetBool("EmptyMoving", dragStarted);
-    }
+    
 
 }

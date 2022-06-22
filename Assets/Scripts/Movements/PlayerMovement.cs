@@ -9,7 +9,8 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 touchDown;
     private Vector3 touchUp;
 
-    float fixedSpeed;
+    public float fixedSpeed;
+    [SerializeField] float maxSpeed = 500f;
 
     [SerializeField] private float movementSpeed = 3;
     [SerializeField] private float rotationSpeed = 300f;
@@ -21,8 +22,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        //fixedSpeed = Mathf.Sqrt(Mathf.Pow(CalculateDirection().x, 2f) + Mathf.Pow(CalculateDirection().z, 2f));
-        //Debug.Log(fixedSpeed);
+        fixedSpeed = Mathf.Sqrt(Mathf.Pow(CalculateDirection().x, 2f) + Mathf.Pow(CalculateDirection().z, 2f));
+        SpeedFixing();
     }
 
 
@@ -46,7 +47,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void Move()
     {
-        gameObject.transform.Translate(new Vector3(-1, 0, -1) * movementSpeed * Time.deltaTime);
+        gameObject.transform.Translate(fixedSpeed *new Vector3(-1, 0, -1) * movementSpeed * Time.deltaTime);
     }
 
     public void Rotate()
@@ -67,5 +68,11 @@ public class PlayerMovement : MonoBehaviour
         temp.z = temp.y;
         temp.y = 0;
         return temp;
+    }
+
+    void SpeedFixing()
+    {
+        if (fixedSpeed > maxSpeed)
+            fixedSpeed = maxSpeed;
     }
 }
