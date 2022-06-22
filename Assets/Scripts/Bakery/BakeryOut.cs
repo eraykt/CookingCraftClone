@@ -31,6 +31,7 @@ public class BakeryOut : MonoBehaviour
             {
                 CanCook = false;
                 StartCoroutine(Generator());
+                // animasyon
             }
         }
     }
