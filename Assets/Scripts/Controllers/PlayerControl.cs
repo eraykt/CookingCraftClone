@@ -61,8 +61,14 @@ public class PlayerControl : MonoBehaviour
             _mover.Rotate();
         }
 
+        RunningAnimation();
+        
 
     }
 
-   
+    private void RunningAnimation()
+    {
+        GetComponent<Animator>().SetBool("EmptyMoving", dragStarted);
+    }
+
 }
