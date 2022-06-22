@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 touchDown;
     private Vector3 touchUp;
 
+    float fixedSpeed;
 
     [SerializeField] private float movementSpeed = 3;
     [SerializeField] private float rotationSpeed = 300f;
@@ -17,6 +18,13 @@ public class PlayerMovement : MonoBehaviour
     {
         _mobileInputs = new MobileInputs();
     }
+
+    private void Update()
+    {
+        //fixedSpeed = Mathf.Sqrt(Mathf.Pow(CalculateDirection().x, 2f) + Mathf.Pow(CalculateDirection().z, 2f));
+        //Debug.Log(fixedSpeed);
+    }
+
 
     public void FirstTouch()
     {
@@ -55,7 +63,7 @@ public class PlayerMovement : MonoBehaviour
 
     Vector3 CalculateDirection()
     {
-        Vector3 temp = (touchDown - touchUp).normalized;
+        Vector3 temp = (touchDown - touchUp);
         temp.z = temp.y;
         temp.y = 0;
         return temp;
