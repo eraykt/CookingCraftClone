@@ -4,27 +4,35 @@ using UnityEngine;
 
 public class tableScript : MonoBehaviour
 {
-    bool jobDone;
+    public bool jobDone;
     bool isCollecting;
     public int tableCoin = 0;
     public int gerekliCoin = 10;
-    public GameObject Table, Player;
+    public GameObject Table;
     private bool isTriggered = false;
+    
+    public Collider collider;
+
+    static int i = 0;
+
+    public TableController TableController;
 
     Coroutine putcoin;
 
     [SerializeField]
     private Vector3 scaleChange;
-    // Start is called before the first frame update
+
     void Start()
     {
         scaleChange = new Vector3(1, 0, 1);
     }
 
-    // Update is called once per frame
     void Update()
     {
-
+        if (gerekliCoin != tableCoin && jobDone)
+        {
+            BuildTable();
+        }
     }
     private void OnTriggerEnter(Collider col)
     {
@@ -68,17 +76,32 @@ public class tableScript : MonoBehaviour
             if (tableCoin == gerekliCoin && !jobDone)
             {
                 isCollecting = false;
-                this.gameObject.transform.GetChild(1).gameObject.SetActive(true);
-                Destroy(this.gameObject.transform.GetChild(0).gameObject);
-                jobDone = true;
-                if (putcoin != null)
-                {
-                    StopCoroutine(putCoin());
-                }
+                BuildTable();
 
             }
         }
     }
+
+    private void BuildTable()
+    {
+        this.gameObject.transform.parent.GetChild(2).gameObject.SetActive(true);
+
+        collider.enabled = true;
+
+        TableController.tableCount++;
+        TableController.isEmpty[i++] = true;
+
+        jobDone = true;
+
+        if (putcoin != null)
+        {
+            StopCoroutine(putCoin());
+        }
+
+        Destroy(Table.gameObject);
+        Destroy(this.gameObject);
+    }
+
     IEnumerator putCoin()
     {
         while (true)

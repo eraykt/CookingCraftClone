@@ -6,6 +6,7 @@ public class CustomerSpawner : MonoBehaviour
 {
     [SerializeField] GameObject[] CustomerPrefabs;
     [SerializeField] Transform SpawnPoint;
+    [SerializeField] TableController table;
 
     [SerializeField] float min, max;
 
@@ -19,30 +20,42 @@ public class CustomerSpawner : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(FirstSpawn());
+        //StartCoroutine(FirstSpawn());
     }
 
     private void Update()
     {
-        if (isFirstCustomerArrived)
-            Spawner();
+        //if (isFirstCustomerArrived)
+        Spawner();
     }
 
     private void Spawner()
     {
-        if (activeGroup < 3)
+        if (table.tableCount != 0)
             timer += Time.deltaTime;
 
-        if (timer > Random.Range(min, max) && activeGroup < 3)
+        if (timer > Random.Range(min, max) && table.tableCount != 0)
         {
             timer = 0f;
             groupSize = Random.Range(1, 4);
 
             activeGroup++;
+            int j;
+            for (j = 0; j < 3; j++)
+            {
+                if (table.isEmpty[j])
+                {
+                    table.isEmpty[j] = false;
+                    table.tableCount--;
+                    break;
+                }
+            }
+
 
             for (int i = 0; i < groupSize; i++)
             {
-                Instantiate(CustomerPrefabs[Random.Range(0, CustomerPrefabs.Length)], SpawnPoint.position + new Vector3(0f, 0f, i * distance), new Quaternion(0f,180f,0f,0f), this.transform);
+                GameObject go = Instantiate(CustomerPrefabs[Random.Range(0, CustomerPrefabs.Length)], SpawnPoint.position + new Vector3(0f, 0f, i * distance), new Quaternion(0f, 180f, 0f, 0f), this.transform);
+                go.GetComponent<CustomerController>().SetPos(table.tables[j].GetChild(i).transform);
             }
         }
     }
