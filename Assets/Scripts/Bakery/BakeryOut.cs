@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class BakeryOut : MonoBehaviour
 {
+    //public GameObject hammadde;
     public int cookedIndex;
-
+    //Animator animator;
     [SerializeField] int max;
     [SerializeField] Transform mealTransform;
 
@@ -20,20 +21,28 @@ public class BakeryOut : MonoBehaviour
 
     private void Start()
     {
+       // gameObject.SetActive(false);
         bakeryIn = transform.parent.GetComponentInChildren<BakeryIn>();
+        //animator = GetComponent<Animator>();
     }
 
     private void Update()
     {
         if (meal > 0)
         {
+            //gameObject.SetActive(true);
             if (CanCook)
             {
                 CanCook = false;
                 StartCoroutine(Generator());
+                
                 // animasyon
             }
         }
+        //else
+        //{
+        //    gameObject.SetActive(false);
+        //}
     }
 
     IEnumerator Generator()
