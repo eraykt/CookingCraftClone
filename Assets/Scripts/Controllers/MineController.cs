@@ -10,30 +10,69 @@ public class MineController : MonoBehaviour
     public float arrivingTime = 5f;
     int generated;
 
+
+    public Transform truckStack;
+    public TruckController truck;
+
     Coroutine collecting, stacks;
+
+    public bool isTruckArrived, isTruckLeaving;
 
 
     private void Start()
     {
         StartCoroutine(Generator());
+        Time.timeScale = 5f;
     }
+
+
+    private void Update()
+    {
+        if (index < transform.childCount)
+        {
+            truck.isTruckNeeded = true;
+        }
+    }
+
 
 
     IEnumerator Generator()
     {
         while (true)
         {
-            if (index < transform.childCount)
+            if (index < transform.childCount && isTruckArrived)
             {
                 yield return new WaitForSeconds(GameManager.Instance.generatingSpeed);
                 transform.GetChild(index).gameObject.SetActive(true);
+                truckStack.GetChild(truckStack.parent.GetComponent<TruckController>().truckIndex--).gameObject.SetActive(false);
                 index++; generated++;
 
-                if (generated % 9 == 0)
-                    yield return new WaitForSeconds(arrivingTime);
+                if (truck.truckIndex < 0)
+                {
+                    isTruckArrived = false; isTruckLeaving = true;
+                    truck.PlayLeavingAnimation();
+                }
+                //if (generated % 9 == 0)
+                //{
+                //    isTruckArrived = false; isTruckLeaving = true;
+                //    truck.PlayLeavingAnimation();
+                //    yield return new WaitForSeconds(arrivingTime);
+                //}
 
                 yield return null;
             }
+            if (index >= transform.childCount && truck.isTruckNeeded)
+            {
+                if (!isTruckLeaving)
+                {
+                    truck.PlayLeavingAnimation();
+                }
+                Debug.Log("a");
+                isTruckArrived = false; isTruckLeaving = true;
+                truck.isTruckNeeded = false;
+                StopCoroutine(truck.TruckArriving());
+            }
+
             yield return null;
         }
     }
@@ -70,6 +109,8 @@ public class MineController : MonoBehaviour
                 isCollecting = false;
             }
         }
+
+
     }
 
     private void OnTriggerExit(Collider other)
