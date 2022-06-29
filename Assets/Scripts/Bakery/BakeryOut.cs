@@ -9,7 +9,7 @@ public class BakeryOut : MonoBehaviour
     //Animator animator;
     [SerializeField] int max;
     [SerializeField] Transform mealTransform;
-
+    public Animator Anim;
     BakeryIn bakeryIn;
 
     public float generatingSpeed = 3f;
@@ -47,7 +47,11 @@ public class BakeryOut : MonoBehaviour
 
     IEnumerator Generator()
     {
+        //Anim.SetTrigger("Bakery");
+        Anim.Play("bakery");
         yield return new WaitForSeconds(generatingSpeed);
+
+        //Anim.Play("bakery");
 
         bakeryIn.current--;
         mealTransform.transform.GetChild(cookedIndex).gameObject.SetActive(true);
