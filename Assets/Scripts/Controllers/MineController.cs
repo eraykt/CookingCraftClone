@@ -22,7 +22,6 @@ public class MineController : MonoBehaviour
     private void Start()
     {
         StartCoroutine(Generator());
-        Time.timeScale = 5f;
     }
 
 
@@ -52,6 +51,7 @@ public class MineController : MonoBehaviour
                     isTruckArrived = false; isTruckLeaving = true;
                     truck.PlayLeavingAnimation();
                 }
+
                 //if (generated % 9 == 0)
                 //{
                 //    isTruckArrived = false; isTruckLeaving = true;
@@ -61,16 +61,14 @@ public class MineController : MonoBehaviour
 
                 yield return null;
             }
-            if (index >= transform.childCount && truck.isTruckNeeded)
+            if (index >= transform.childCount && isTruckArrived)
             {
                 if (!isTruckLeaving)
                 {
                     truck.PlayLeavingAnimation();
                 }
-                Debug.Log("a");
                 isTruckArrived = false; isTruckLeaving = true;
                 truck.isTruckNeeded = false;
-                StopCoroutine(truck.TruckArriving());
             }
 
             yield return null;

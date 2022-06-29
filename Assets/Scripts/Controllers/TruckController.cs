@@ -16,6 +16,7 @@ public class TruckController : MonoBehaviour
     public float ArrivingTime;
     bool isTruckGone;
     public bool isTruckNeeded = true;
+    public float animSpeed = 1f;
 
     private void Awake()
     {
@@ -25,7 +26,6 @@ public class TruckController : MonoBehaviour
     private void Start()
     {
         StartCoroutine(TruckArriving());
-        //Time.timeScale = 5f;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -55,12 +55,12 @@ public class TruckController : MonoBehaviour
     {
         while (true)
         {
-            if (isTruckGone && isTruckNeeded)
+            if (isTruckGone && isTruckNeeded && mine.index < mine.transform.childCount)
             {
-                yield return new WaitForSeconds(11f + ArrivingTime);
+                yield return new WaitForSeconds((11f / animSpeed) + ArrivingTime);
+                mine.isTruckLeaving = false;
                 ReloadBoxes();
                 animation.Play("Arriving");
-                Debug.Log(isTruckNeeded);
 
                 isTruckGone = false;
                 yield return null;
