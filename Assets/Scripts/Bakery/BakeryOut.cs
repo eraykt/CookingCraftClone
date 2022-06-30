@@ -21,7 +21,7 @@ public class BakeryOut : MonoBehaviour
 
     private void Start()
     {
-       // gameObject.SetActive(false);
+        // gameObject.SetActive(false);
         bakeryIn = transform.parent.GetComponentInChildren<BakeryIn>();
         //animator = GetComponent<Animator>();
     }
@@ -35,7 +35,7 @@ public class BakeryOut : MonoBehaviour
             {
                 CanCook = false;
                 StartCoroutine(Generator());
-                
+
                 // animasyon
             }
         }
@@ -71,7 +71,7 @@ public class BakeryOut : MonoBehaviour
             yield return new WaitForSeconds(GameManager.Instance.collectingSpeed);
 
             canCollect = false;
-            cookedIndex--; 
+            cookedIndex--;
             mealTransform.transform.GetChild(cookedIndex).gameObject.SetActive(false);
 
             if (GameManager.Instance.PlayerStack == GameManager.Instance.PlayerStackLimit - 1)
@@ -81,27 +81,44 @@ public class BakeryOut : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            if (GameManager.Instance.PlayerStack < GameManager.Instance.PlayerStackLimit && cookedIndex > 0)
+            {
+                collecting = StartCoroutine(Collecting());
+                stacks = StartCoroutine(PlayerStacks.StackInstance.AddStack(1));
+            }
+        }
+    }
+
+
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.CompareTag("Player"))
         {
-            if (GameManager.Instance.PlayerStack < GameManager.Instance.PlayerStackLimit)
+            if (collecting != null)
             {
-                if (canCollect)
+                if (GameManager.Instance.PlayerStack == GameManager.Instance.PlayerStackLimit || cookedIndex == 0)
                 {
-                    canCollect = false;
+                    StopCoroutine(collecting);
+                    StopCoroutine(stacks);
+                }
+            }
+
+            else
+            {
+                if (GameManager.Instance.PlayerStack < GameManager.Instance.PlayerStackLimit && cookedIndex > 0)
+                {
                     collecting = StartCoroutine(Collecting());
                     stacks = StartCoroutine(PlayerStacks.StackInstance.AddStack(1));
                 }
             }
-
-            if (collecting != null && cookedIndex == 0)
-            {
-                StopCoroutine(collecting);
-                StopCoroutine(stacks);
-            }
         }
     }
+
+
 
     private void OnTriggerExit(Collider other)
     {
@@ -116,6 +133,28 @@ public class BakeryOut : MonoBehaviour
         }
     }
 
+
+    //private void OnTriggerStay(Collider other)
+    //{
+    //    if (other.gameObject.CompareTag("Player"))
+    //    {
+    //        if (GameManager.Instance.PlayerStack < GameManager.Instance.PlayerStackLimit)
+    //        {
+    //            if (canCollect)
+    //            {
+    //                canCollect = false;
+    //                collecting = StartCoroutine(Collecting());
+    //                stacks = StartCoroutine(PlayerStacks.StackInstance.AddStack(1));
+    //            }
+    //        }
+
+    //        if (collecting != null && cookedIndex == 0)
+    //        {
+    //            StopCoroutine(collecting);
+    //            StopCoroutine(stacks);
+    //        }
+    //    }
+    //}
 
     //private void OnTriggerEnter(Collider other)
     //{

@@ -24,12 +24,14 @@ public class Trash : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        trash = true;
+        if (other.CompareTag("Player"))
+            trash = true;
     }
 
     private void OnTriggerExit(Collider other)
     {
-        trash = false;
+        if (other.CompareTag("Player"))
+            trash = false;
     }
     private void TrashCan()
     {
