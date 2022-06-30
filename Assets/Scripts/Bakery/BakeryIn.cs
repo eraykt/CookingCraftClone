@@ -8,6 +8,9 @@ public class BakeryIn : MonoBehaviour
     [SerializeField] int max;
     [SerializeField] BakeryOut bakeryOut;
     public GameObject hmadde,hamburger;
+    Animator anim,anim2;
+    bool burgerAnim = false;
+
 
 
 
@@ -17,9 +20,13 @@ public class BakeryIn : MonoBehaviour
     bool isCollecting;
     private void Start()
     {
-
+        anim = GetComponent<Animator>();
+        anim2 = GetComponent<Animator>();
         bakeryOut = transform.parent.GetComponentInChildren<BakeryOut>();
         timer = GameManager.Instance.puttingSpeed;
+        hmadde.SetActive(false);
+        hamburger.SetActive(false);
+        burgerAnim = false;
     }
 
 
@@ -64,7 +71,6 @@ public class BakeryIn : MonoBehaviour
             PlayerStacks.StackInstance.RemoveStack();
             bakeryOut.meal++;
             timer = GameManager.Instance.puttingSpeed;
-
         }
 
         if (current == max)
@@ -78,14 +84,14 @@ public class BakeryIn : MonoBehaviour
     {
         if (other.gameObject.tag=="Player" && isCollecting == true)
         {
+            hmadde.SetActive(true);            
+            burgerAnim = true;
 
-            //    hmadde.SetActive(true);            
-            //    burgerAnim = true;
-
-            //    if (burgerAnim == true)
-            //    {
-            //        hamburger.SetActive(true);
-            //    }         
+            if (burgerAnim == true)
+            {
+                hamburger.SetActive(true);
+                
+            }         
         }
 
     }
