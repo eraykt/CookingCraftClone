@@ -10600,6 +10600,7 @@ GameObject:
   - component: {fileID: 1447045081}
   - component: {fileID: 1447045082}
   - component: {fileID: 1447045083}
+  - component: {fileID: 1447045084}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -10637,8 +10638,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RightDoor: {fileID: 919132149096078285}
   LeftDoor: {fileID: 919132148999007427}
-  anim1: {fileID: 0}
-  anim2: {fileID: 0}
+  anim: {fileID: 0}
+  Kitchen: 0
 --- !u!65 &1447045082
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10650,8 +10651,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 5.355328, y: 3.292507, z: 3.6621275}
-  m_Center: {x: 11.157377, y: -2.7321093, z: -23.419067}
+  m_Size: {x: 5.355328, y: 3.292507, z: 3.1259289}
+  m_Center: {x: 11.157377, y: -2.7321093, z: -21.899544}
 --- !u!95 &1447045083
 Animator:
   serializedVersion: 3
@@ -10671,6 +10672,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!65 &1447045084
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1447045079}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 5.126153, y: 2.5086155, z: 3.1103525}
+  m_Center: {x: 11.3872795, y: -2.3134391, z: -25.431143}
 --- !u!1 &1451820343
 GameObject:
   m_ObjectHideFlags: 0
@@ -14762,13 +14776,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 919132148999007427}
-  m_LocalRotation: {x: -0.50210136, y: 0.49789008, z: 0.4977146, w: 0.5022747}
+  m_LocalRotation: {x: -0.5022769, y: 0.49771273, z: 0.49771273, w: 0.5022769}
   m_LocalPosition: {x: 13.749999, y: -4.3200006, z: -23.599998}
   m_LocalScale: {x: 129.92235, y: 126.87729, z: 109.8284}
   m_Children: []
   m_Father: {fileID: 1447045080}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: -90.02, y: 180, z: -90.52301}
+  m_LocalEulerAnglesHint: {x: -90, y: 180, z: -90.52301}
 --- !u!4 &543450652990818915
 Transform:
   m_ObjectHideFlags: 0
@@ -15083,7 +15097,6 @@ GameObject:
   - component: {fileID: 1711813856060607766}
   - component: {fileID: 1052184981}
   - component: {fileID: 919132148999007428}
-  - component: {fileID: 919132148999007429}
   m_Layer: 0
   m_Name: mkapisol
   m_TagString: Untagged
@@ -15107,25 +15120,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 62
   m_CollisionDetection: 3
---- !u!95 &919132148999007429
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919132148999007427}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: a6c30191e44ba2e47ba8c03d94f757fd, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &919132149096078285
 GameObject:
   m_ObjectHideFlags: 0
@@ -15139,7 +15133,6 @@ GameObject:
   - component: {fileID: 1711813855693044248}
   - component: {fileID: 76441247}
   - component: {fileID: 919132149096078286}
-  - component: {fileID: 919132149096078287}
   m_Layer: 0
   m_Name: mkapisag
   m_TagString: Untagged
@@ -15163,25 +15156,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 62
   m_CollisionDetection: 3
---- !u!95 &919132149096078287
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919132149096078285}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 35ec242f7f55207429e20b0667a978f6, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &919132149416301095
 GameObject:
   m_ObjectHideFlags: 0

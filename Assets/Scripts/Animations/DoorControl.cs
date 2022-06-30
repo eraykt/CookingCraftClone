@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class DoorControl : MonoBehaviour
 {
+    //public Collider Kitchen, Saloon;
     public GameObject RightDoor, LeftDoor;
-    public Animator anim1,anim2;
+    public Animator anim;
+    [SerializeField]private bool Kitchen;
     // Start is called before the first frame update
     void Start()
     {
-        //anim = GetComponent<Animator>();
+        anim = GetComponent<Animator>();
         //anim.StopPlayback();
     }
 
@@ -20,11 +22,19 @@ public class DoorControl : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+
+        if (other.gameObject.CompareTag("Player") && Kitchen != true)
         {
             Debug.Log("asd");
-            anim1.Play("DoorAnimation_1");
-            anim2.Play("DoorAnimation_2");
+            anim.Play("GateAnimation_2");
+            Kitchen = true;
+        }
+        if (other.gameObject.CompareTag("Player") && Kitchen == true)
+        {
+            
+            anim.Play("GateAnimation");
+            Kitchen = false;
         }
     }
+    
 }
