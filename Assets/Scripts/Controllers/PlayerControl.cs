@@ -13,7 +13,7 @@ public class PlayerControl : MonoBehaviour
 
     [SerializeField] MineController _mine;
 
-   
+    public bool Hayalet;
 
     #region Player Movement Bools
 
@@ -60,15 +60,34 @@ public class PlayerControl : MonoBehaviour
 
         if (dragStarted)
         {
-            _mover.Move();
+            if (RayTag() == "" || Hayalet)
+                _mover.Move();
+
             _mover.Rotate();
         }
 
         _anim.RunningAnimation(dragStarted);
-        
+
+        Debug.DrawRay(transform.position + new Vector3(0f, 0.5f, 0f), -transform.forward + -transform.right, Color.red);
 
     }
 
-    
+
+    string RayTag()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position + new Vector3(0f, 0.5f, 0f), -transform.forward + -transform.right, out hit, 1f))
+        {
+            if (!hit.transform.GetComponent<Collider>().isTrigger)
+            {
+                return hit.collider.tag;
+            }
+            else
+                return "";
+        }
+
+        else
+            return "";
+    }
 
 }
