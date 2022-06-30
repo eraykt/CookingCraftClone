@@ -94,30 +94,49 @@ public class MineController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            if (GameManager.Instance.PlayerStack < GameManager.Instance.PlayerStackLimit)
+            if (GameManager.Instance.PlayerStack < GameManager.Instance.PlayerStackLimit && index > 0)
             {
                 collecting = StartCoroutine(Collecting());
                 stacks = StartCoroutine(PlayerStacks.StackInstance.AddStack(0));
             }
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            if (collecting != null)
+            {
+                if (GameManager.Instance.PlayerStack == GameManager.Instance.PlayerStackLimit || index == 0)
+                {
+                    StopCoroutine(collecting);
+                    StopCoroutine(stacks);
+                    isCollecting = false;
+                }
+            }
 
             else
             {
-                StopCoroutine(collecting);
-                StopCoroutine(stacks);
-                isCollecting = false;
+                if (GameManager.Instance.PlayerStack < GameManager.Instance.PlayerStackLimit && index > 0)
+                {
+                    collecting = StartCoroutine(Collecting());
+                    stacks = StartCoroutine(PlayerStacks.StackInstance.AddStack(0));
+                }
             }
         }
-
-
     }
 
     private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            StopCoroutine(collecting);
-            StopCoroutine(stacks);
-            isCollecting = false;
+            if (collecting != null)
+            {
+                StopCoroutine(collecting);
+                StopCoroutine(stacks);
+                isCollecting = false;
+            }
         }
     }
 }
