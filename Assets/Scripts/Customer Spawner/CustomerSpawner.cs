@@ -8,7 +8,6 @@ public class CustomerSpawner : MonoBehaviour
     [SerializeField] Transform SpawnPoint;
     [SerializeField] TableController table;
 
-
     [SerializeField] float min, max;
 
     [SerializeField] float distance;
@@ -57,7 +56,6 @@ public class CustomerSpawner : MonoBehaviour
             {
                 GameObject go = Instantiate(CustomerPrefabs[Random.Range(0, CustomerPrefabs.Length)], SpawnPoint.position + new Vector3(0f, 0f, i * distance), new Quaternion(0f, 180f, 0f, 0f), this.transform);
                 go.GetComponent<CustomerController>().SetPos(table.tables[j].GetChild(i).transform);
-                table.burgerOrder[j] += go.GetComponent<CustomerController>().BurgerOrder();
             }
         }
     }

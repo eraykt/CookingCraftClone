@@ -41,9 +41,4 @@ public class CustomerController : MonoBehaviour
         agent.SetDestination(pos.position);
         isWalking = true;
     }
-
-    public int BurgerOrder()
-    {
-        return Random.Range(2, 5);
-    }
 }

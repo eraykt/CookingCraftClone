@@ -11,8 +11,4 @@ public class TableController : MonoBehaviour
    
     public List<Transform> tablesList = new List<Transform>();
 
-
-    public int[] burgerOrder = new int[3];
-
-
 }

@@ -6,8 +6,6 @@ TagManager:
   tags:
   - CollectingZone
   - truck
-  - Hammadde
-  - Burger
   layers:
   - Default
   - TransparentFX

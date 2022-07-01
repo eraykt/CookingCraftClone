@@ -10100,7 +10100,6 @@ MonoBehaviour:
   - {fileID: 1720187158}
   - {fileID: 1615785621}
   - {fileID: 1619694657}
-  burgerOrder: 000000000000000000000000
 --- !u!1 &1347391862
 GameObject:
   m_ObjectHideFlags: 0
@@ -10641,6 +10640,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54f6c7083e6734d439a48f7b6cb92242, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RightDoor: {fileID: 919132149096078285}
+  LeftDoor: {fileID: 919132148999007427}
   anim: {fileID: 0}
   Kitchen: 0
 --- !u!65 &1447045082
