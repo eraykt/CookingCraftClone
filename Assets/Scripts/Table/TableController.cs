@@ -8,7 +8,7 @@ public class TableController : MonoBehaviour
     public bool[] isEmpty;
 
     public int tableCount;
-    //public int emptyTable;
-
+   
+    public List<Transform> tablesList = new List<Transform>();
 
 }
