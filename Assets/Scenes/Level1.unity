@@ -5224,7 +5224,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _mine: {fileID: 0}
-  Hayalet: 0
+  Hayalet: 1
 --- !u!1 &851542845
 GameObject:
   m_ObjectHideFlags: 0
@@ -10096,7 +10096,10 @@ MonoBehaviour:
   - {fileID: 833939866}
   isEmpty: 000000
   tableCount: 0
-  tablesList: []
+  tablesList:
+  - {fileID: 1720187158}
+  - {fileID: 1615785621}
+  - {fileID: 1619694657}
 --- !u!1 &1347391862
 GameObject:
   m_ObjectHideFlags: 0
@@ -10601,6 +10604,7 @@ GameObject:
   - component: {fileID: 1447045081}
   - component: {fileID: 1447045082}
   - component: {fileID: 1447045083}
+  - component: {fileID: 1447045084}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -10636,6 +10640,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54f6c7083e6734d439a48f7b6cb92242, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RightDoor: {fileID: 919132149096078285}
+  LeftDoor: {fileID: 919132148999007427}
+  anim: {fileID: 0}
   Kitchen: 0
 --- !u!65 &1447045082
 BoxCollider:
@@ -10648,8 +10655,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 5.355328, y: 3.292507, z: 5.2465806}
-  m_Center: {x: 11.157377, y: -2.7321093, z: -22.95985}
+  m_Size: {x: 5.355328, y: 3.292507, z: 3.1259289}
+  m_Center: {x: 11.157377, y: -2.7321093, z: -21.899544}
 --- !u!95 &1447045083
 Animator:
   serializedVersion: 3
@@ -10669,6 +10676,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!65 &1447045084
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1447045079}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 5.126153, y: 2.5086155, z: 3.1103525}
+  m_Center: {x: 11.3872795, y: -2.3134391, z: -25.431143}
 --- !u!1 &1451820343
 GameObject:
   m_ObjectHideFlags: 0
