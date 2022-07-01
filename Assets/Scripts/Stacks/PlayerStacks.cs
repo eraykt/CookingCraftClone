@@ -8,6 +8,7 @@ public class PlayerStacks : MonoBehaviour
     [SerializeField] Transform objTransform;
     [SerializeField] float distance;
 
+    [SerializeField] Transform player;
 
     int current, max;
 
@@ -27,7 +28,9 @@ public class PlayerStacks : MonoBehaviour
         while (GameManager.Instance.PlayerStack < GameManager.Instance.PlayerStackLimit)
         {
             yield return new WaitForSeconds(GameManager.Instance.collectingSpeed);
-            Instantiate(stackPrefabs[stackIndex], new Vector3(objTransform.transform.position.x, objTransform.transform.position.y, objTransform.transform.position.z), objTransform.rotation, this.transform);
+            GameObject go = Instantiate(stackPrefabs[stackIndex], new Vector3(objTransform.transform.position.x, objTransform.transform.position.y, objTransform.transform.position.z), stackPrefabs[stackIndex].transform.rotation, this.transform);
+            go.transform.localRotation = stackPrefabs[stackIndex].transform.rotation;
+            //go.transform.position = objTransform.transform.position;
             objTransform.transform.position = new Vector3(objTransform.transform.position.x, objTransform.transform.position.y + distance, objTransform.transform.position.z);
             GameManager.Instance.PlayerStack++;
             yield return null;
