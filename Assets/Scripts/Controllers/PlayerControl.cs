@@ -68,6 +68,7 @@ public class PlayerControl : MonoBehaviour
 
         _anim.RunningAnimation(dragStarted);
 
+        Debug.DrawRay(transform.position + new Vector3(0f, 0.5f, 0f), -transform.forward + -transform.right, Color.red);
 
     }
 
