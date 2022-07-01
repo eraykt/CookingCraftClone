@@ -9,9 +9,8 @@ public class tableScript : MonoBehaviour
     public int tableCoin = 0;
     public int gerekliCoin = 10;
     public GameObject Table;
-    private bool isTriggered = false;
-    
-    public Collider collider;
+
+    public Collider col;
 
     static int i = 0;
 
@@ -86,16 +85,16 @@ public class tableScript : MonoBehaviour
     {
         this.gameObject.transform.parent.GetChild(2).gameObject.SetActive(true);
 
-        collider.enabled = true;
+        col.enabled = true;
 
         TableController.tableCount++;
         TableController.isEmpty[i++] = true;
-        
+
         if (i < 3)
             TableController.tablesList[i].gameObject.SetActive(true);
-        
 
-        
+
+
 
         jobDone = true;
 

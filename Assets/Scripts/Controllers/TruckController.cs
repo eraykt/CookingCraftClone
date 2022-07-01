@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TruckController : MonoBehaviour
 {
-    public Animator animation;
+    public Animator anim;
 
     [SerializeField] MineController mine;
 
@@ -20,7 +20,7 @@ public class TruckController : MonoBehaviour
 
     private void Awake()
     {
-        animation = GetComponent<Animator>();
+        anim = GetComponent<Animator>();
     }
 
     private void Start()
@@ -39,7 +39,7 @@ public class TruckController : MonoBehaviour
     public void PlayLeavingAnimation()
     {
         truckIndex = 8;
-        animation.SetTrigger("leave");
+        anim.SetTrigger("leave");
         isTruckGone = true;
     }
 
@@ -60,7 +60,7 @@ public class TruckController : MonoBehaviour
                 yield return new WaitForSeconds((11f / animSpeed) + ArrivingTime);
                 mine.isTruckLeaving = false;
                 ReloadBoxes();
-                animation.Play("Arriving");
+                anim.Play("Arriving");
 
                 isTruckGone = false;
                 yield return null;

@@ -17,7 +17,6 @@ public class CustomerSpawner : MonoBehaviour
     int activeGroup;
     float timer;
 
-    bool isFirstCustomerArrived;
 
     private void Start()
     {
@@ -62,16 +61,4 @@ public class CustomerSpawner : MonoBehaviour
         }
     }
 
-    IEnumerator FirstSpawn()
-    {
-        yield return new WaitForSeconds(5f);
-        groupSize = Random.Range(1, 4);
-        activeGroup++;
-        for (int i = 0; i < groupSize; i++)
-        {
-            Instantiate(CustomerPrefabs[Random.Range(0, CustomerPrefabs.Length)], SpawnPoint.position + new Vector3(0f, 0f, i * distance), new Quaternion(0f, 180f, 0f, 0f), this.transform);
-        }
-        isFirstCustomerArrived = true;
-        yield return null;
-    }
 }

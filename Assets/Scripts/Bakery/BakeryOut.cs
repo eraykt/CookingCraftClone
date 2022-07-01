@@ -14,7 +14,6 @@ public class BakeryOut : MonoBehaviour
 
     public float generatingSpeed = 3f;
     public bool CanCook = true;
-    bool canCollect;
 
     public int meal;
     Coroutine collecting, stacks;
@@ -58,7 +57,6 @@ public class BakeryOut : MonoBehaviour
         cookedIndex++;
         meal--;
         CanCook = true;
-        canCollect = true;
 
         yield return null;
     }
@@ -70,7 +68,6 @@ public class BakeryOut : MonoBehaviour
         {
             yield return new WaitForSeconds(GameManager.Instance.collectingSpeed);
 
-            canCollect = false;
             cookedIndex--;
             mealTransform.transform.GetChild(cookedIndex).gameObject.SetActive(false);
 
