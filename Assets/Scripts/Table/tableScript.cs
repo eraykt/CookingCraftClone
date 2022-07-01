@@ -90,12 +90,6 @@ public class tableScript : MonoBehaviour
 
         TableController.tableCount++;
         TableController.isEmpty[i++] = true;
-        
-        if (i < 3)
-            TableController.tablesList[i].gameObject.SetActive(true);
-        
-
-        
 
         jobDone = true;
 
