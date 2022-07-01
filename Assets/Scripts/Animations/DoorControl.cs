@@ -4,34 +4,27 @@ using UnityEngine;
 
 public class DoorControl : MonoBehaviour
 {
-    //public Collider Kitchen, Saloon;
-    //public GameObject RightDoor, LeftDoor;
-    public Animator anim;
+
+    private Animator anim;
+
     [SerializeField]private bool Kitchen;
     // Start is called before the first frame update
     void Start()
     {
         anim = GetComponent<Animator>();
-        //anim.StopPlayback();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
         
     }
+
     private void OnTriggerEnter(Collider other)
     {
 
         if (other.gameObject.CompareTag("Player") && Kitchen != true)
         {
-            Debug.Log("asd");
             anim.Play("GateAnimation_2");
             Kitchen = true;
         }
         if (other.gameObject.CompareTag("Player") && Kitchen == true)
-        {
-            
+        {  
             anim.Play("GateAnimation");
             Kitchen = false;
         }
