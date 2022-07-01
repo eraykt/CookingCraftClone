@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class DoorControl : MonoBehaviour
 {
-    //public Collider Kitchen, Saloon;
-    public GameObject RightDoor, LeftDoor;
-    public Animator anim;
+    
+    Animator anim;
     [SerializeField]private bool Kitchen;
     // Start is called before the first frame update
     void Start()
