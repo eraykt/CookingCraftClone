@@ -47,6 +47,11 @@ public class TableOrder : MonoBehaviour
                 {
                     canPuttingBurger = true;
                 }
+
+                else
+                {
+                    canPuttingBurger = false;
+                }
             }
         }
     }

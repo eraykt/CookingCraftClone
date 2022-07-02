@@ -95,16 +95,7 @@ public class BakeryOut : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            if (collecting != null)
-            {
-                if (GameManager.Instance.PlayerStack == GameManager.Instance.PlayerStackLimit || cookedIndex == 0)
-                {
-                    StopCoroutine(collecting);
-                    StopCoroutine(stacks);
-                }
-            }
-
-            else
+            if (collecting == null)
             {
                 if (GameManager.Instance.PlayerStack < GameManager.Instance.PlayerStackLimit && cookedIndex > 0)
                 {
@@ -112,6 +103,16 @@ public class BakeryOut : MonoBehaviour
                     stacks = StartCoroutine(PlayerStacks.StackInstance.AddStack(1));
                 }
             }
+
+            if (collecting != null)
+            {
+                if (GameManager.Instance.PlayerStack == GameManager.Instance.PlayerStackLimit || cookedIndex == 0)
+                {
+                    StopCoroutine(collecting); collecting = null;
+                    StopCoroutine(stacks);
+                }
+            }
+
         }
     }
 

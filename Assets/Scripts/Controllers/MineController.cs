@@ -106,17 +106,8 @@ public class MineController : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            if (collecting != null)
-            {
-                if (GameManager.Instance.PlayerStack == GameManager.Instance.PlayerStackLimit || index == 0)
-                {
-                    StopCoroutine(collecting);
-                    StopCoroutine(stacks);
-                    isCollecting = false;
-                }
-            }
 
-            else
+            if (collecting == null)
             {
                 if (GameManager.Instance.PlayerStack < GameManager.Instance.PlayerStackLimit && index > 0)
                 {
@@ -124,6 +115,18 @@ public class MineController : MonoBehaviour
                     stacks = StartCoroutine(PlayerStacks.StackInstance.AddStack(0));
                 }
             }
+
+            if (collecting != null)
+            {
+                if (GameManager.Instance.PlayerStack == GameManager.Instance.PlayerStackLimit || index == 0)
+                {
+                    StopCoroutine(collecting); collecting = null;
+                    StopCoroutine(stacks);
+                    isCollecting = false;
+                }
+            }
+
+
         }
     }
 
