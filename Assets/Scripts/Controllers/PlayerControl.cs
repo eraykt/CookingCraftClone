@@ -60,7 +60,7 @@ public class PlayerControl : MonoBehaviour
 
         if (dragStarted)
         {
-            if (RayTag() == "" || Hayalet)
+            if (RayTag() == "" || RayTag() == "Door" || Hayalet)
                 _mover.Move();
 
             _mover.Rotate();
@@ -78,9 +78,8 @@ public class PlayerControl : MonoBehaviour
         if (Physics.Raycast(transform.position + new Vector3(0f, 0.5f, 0f), -transform.forward + -transform.right, out hit, 1f))
         {
             if (!hit.transform.GetComponent<Collider>().isTrigger)
-            {
                 return hit.collider.tag;
-            }
+
             else
                 return "";
         }

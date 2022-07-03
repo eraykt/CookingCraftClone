@@ -4,30 +4,25 @@ using UnityEngine;
 
 public class DoorControl : MonoBehaviour
 {
+    HingeJoint joint;
+    float angle;
+    JointMotor motor;
 
-    private Animator anim;
-
-    [SerializeField]private bool Kitchen;
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        anim = GetComponent<Animator>();
-        
+        joint = GetComponent<HingeJoint>();
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void Start()
     {
-
-        if (other.gameObject.CompareTag("Player") && Kitchen != true)
-        {
-            anim.Play("GateAnimation_2");
-            Kitchen = true;
-        }
-        if (other.gameObject.CompareTag("Player") && Kitchen == true)
-        {  
-            anim.Play("GateAnimation");
-            Kitchen = false;
-        }
+        motor = joint.motor;
     }
-    
+
+    private void Update()
+    {
+        angle = joint.angle;
+        motor.targetVelocity = -angle;
+        joint.motor = motor;
+    }
+
 }
