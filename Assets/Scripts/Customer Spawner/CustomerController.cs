@@ -24,21 +24,27 @@ public class CustomerController : MonoBehaviour
 
         else
             isWalking = true;
-        
+
 
         //if (isWalking)
         //{
-            if (agent.remainingDistance <= agent.stoppingDistance)
-            {
-                transform.LookAt(TablePos.parent.transform);
-            }
+        if (agent.remainingDistance <= agent.stoppingDistance)
+        {
+            transform.LookAt(TablePos.parent.transform);
+        }
         //}
     }
 
-    public void SetPos(Transform pos)
+    public void WalkToTable(Transform pos)
     {
         TablePos = pos;
         agent.SetDestination(pos.position);
+        isWalking = true;
+    }
+
+    public void LeaveRestourant()
+    {
+        agent.SetDestination(new Vector3(-3f, 0f, 8.5f));
         isWalking = true;
     }
 

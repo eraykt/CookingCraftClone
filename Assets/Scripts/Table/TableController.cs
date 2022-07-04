@@ -4,15 +4,21 @@ using UnityEngine;
 
 public class TableController : MonoBehaviour
 {
+    [Header("Table Transforms")]
     public Transform[] tables;
-    public bool[] isEmpty;
-
-    public int tableCount;
-   
     public List<Transform> tablesList = new List<Transform>();
 
+    [Header("Avaliable Tables")]
+    public bool[] isEmpty;
+    public int tableCount;
 
+    [Header("Orders")]
     public int[] burgerOrder = new int[3];
 
-
+    public void ClearTable(int tableNo)
+    {
+        isEmpty[tableNo] = true;
+        tableCount++;
+        burgerOrder[tableNo] = 0;
+    }
 }

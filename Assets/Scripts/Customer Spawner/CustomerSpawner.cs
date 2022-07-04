@@ -14,8 +14,8 @@ public class CustomerSpawner : MonoBehaviour
     [SerializeField] float distance;
 
     int groupSize;
-    int activeGroup;
     float timer;
+    int j;
 
 
     private void Start()
@@ -39,8 +39,6 @@ public class CustomerSpawner : MonoBehaviour
             timer = 0f;
             groupSize = Random.Range(1, 4);
 
-            activeGroup++;
-            int j;
             for (j = 0; j < 3; j++)
             {
                 if (table.isEmpty[j])
@@ -55,7 +53,8 @@ public class CustomerSpawner : MonoBehaviour
             for (int i = 0; i < groupSize; i++)
             {
                 GameObject go = Instantiate(CustomerPrefabs[Random.Range(0, CustomerPrefabs.Length)], SpawnPoint.position + new Vector3(0f, 0f, i * distance), new Quaternion(0f, 180f, 0f, 0f), this.transform);
-                go.GetComponent<CustomerController>().SetPos(table.tables[j].GetChild(i).transform);
+                go.GetComponent<CustomerController>().WalkToTable(table.tables[j].GetChild(i).transform);
+                table.transform.GetChild(j).GetComponent<TableOrder>().customers.Add(go);
                 table.burgerOrder[j] += go.GetComponent<CustomerController>().BurgerOrder();
             }
         }

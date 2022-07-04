@@ -10,12 +10,18 @@ public class TableOrder : MonoBehaviour
 
     [SerializeField] Transform stacks;
 
+    public List<GameObject> customers = new List<GameObject>();
+
     public int burgerNeeded;
     public int burgerGived;
+
+    bool isCustomerArrived;
 
     float timer;
 
     bool canPuttingBurger;
+
+    Coroutine customer;
 
     private void Awake()
     {
@@ -34,8 +40,17 @@ public class TableOrder : MonoBehaviour
             timer -= Time.deltaTime;
             PutBurgerToTable();
         }
+
+
+
+
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Customer"))
+            isCustomerArrived = true;
+    }
 
     private void OnTriggerStay(Collider other)
     {
@@ -43,17 +58,19 @@ public class TableOrder : MonoBehaviour
         {
             if (burgerGived < burgerNeeded)
             {
-                if (GameManager.Instance.PlayerStack > 0 && stacks.GetChild(GameManager.Instance.PlayerStack).gameObject.CompareTag("Burger"))
-                {
-                    canPuttingBurger = true;
-                }
-
-                else
-                {
-                    canPuttingBurger = false;
-                }
+                canPuttingBurger = GameManager.Instance.PlayerStack > 0 && stacks.GetChild(GameManager.Instance.PlayerStack).gameObject.CompareTag("Burger") && isCustomerArrived;
             }
         }
+
+        #region Siparisler tamamlandiginda
+
+        if (burgerNeeded == burgerGived && burgerGived != 0)
+        {
+            burgerGived = 0;
+            customer = StartCoroutine(Completed());
+
+        }
+        #endregion
     }
 
     private void OnTriggerExit(Collider other)
@@ -61,6 +78,11 @@ public class TableOrder : MonoBehaviour
         if (canPuttingBurger)
         {
             canPuttingBurger = false;
+        }
+
+        if (other.CompareTag("Customer"))
+        {
+            isCustomerArrived = false;
         }
     }
 
@@ -80,4 +102,16 @@ public class TableOrder : MonoBehaviour
         }
     }
 
+    IEnumerator Completed()
+    {
+        yield return new WaitForSeconds(5f);
+
+        foreach (GameObject go in customers)
+            go.GetComponent<CustomerController>().LeaveRestourant();
+
+        customers.Clear();
+
+        table.ClearTable(tableNumber);
+        yield return null;
+    }
 }
