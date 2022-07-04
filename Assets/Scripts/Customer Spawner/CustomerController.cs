@@ -10,6 +10,8 @@ public class CustomerController : MonoBehaviour
 
     bool isWalking;
 
+    public int settedTable;
+
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -44,7 +46,7 @@ public class CustomerController : MonoBehaviour
 
     public void LeaveRestourant()
     {
-        agent.SetDestination(new Vector3(-3f, 0f, 8.5f));
+        agent.SetDestination(GameObject.FindGameObjectWithTag("Respawn").transform.position);
         isWalking = true;
     }
 

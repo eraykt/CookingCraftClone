@@ -54,6 +54,7 @@ public class CustomerSpawner : MonoBehaviour
             {
                 GameObject go = Instantiate(CustomerPrefabs[Random.Range(0, CustomerPrefabs.Length)], SpawnPoint.position + new Vector3(0f, 0f, i * distance), new Quaternion(0f, 180f, 0f, 0f), this.transform);
                 go.GetComponent<CustomerController>().WalkToTable(table.tables[j].GetChild(i).transform);
+                go.GetComponent<CustomerController>().settedTable = j;
                 table.transform.GetChild(j).GetComponent<TableOrder>().customers.Add(go);
                 table.burgerOrder[j] += go.GetComponent<CustomerController>().BurgerOrder();
             }

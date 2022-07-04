@@ -30,26 +30,27 @@ public class TableOrder : MonoBehaviour
 
     private void Update()
     {
-        if (burgerNeeded == 0 && table.burgerOrder[tableNumber] != 0)
-        {
-            burgerNeeded = table.burgerOrder[tableNumber];
-        }
+        //if (burgerNeeded == 0 && table.burgerOrder[tableNumber] != 0)
+        //{
+        //}
 
         if (canPuttingBurger && burgerGived < burgerNeeded && GameManager.Instance.PlayerStack > 0)
         {
             timer -= Time.deltaTime;
             PutBurgerToTable();
         }
-
-
-
-
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Customer"))
-            isCustomerArrived = true;
+        {
+            if (other.GetComponent<CustomerController>().settedTable == tableNumber)
+            {
+                isCustomerArrived = true;
+                SetOrder();
+            }
+        }
     }
 
     private void OnTriggerStay(Collider other)
@@ -66,9 +67,7 @@ public class TableOrder : MonoBehaviour
 
         if (burgerNeeded == burgerGived && burgerGived != 0)
         {
-            burgerGived = 0;
             customer = StartCoroutine(Completed());
-
         }
         #endregion
     }
@@ -80,10 +79,7 @@ public class TableOrder : MonoBehaviour
             canPuttingBurger = false;
         }
 
-        if (other.CompareTag("Customer"))
-        {
-            isCustomerArrived = false;
-        }
+
     }
 
 
@@ -104,14 +100,23 @@ public class TableOrder : MonoBehaviour
 
     IEnumerator Completed()
     {
+        burgerGived = 0;
+        isCustomerArrived = false;
+
         yield return new WaitForSeconds(5f);
 
         foreach (GameObject go in customers)
             go.GetComponent<CustomerController>().LeaveRestourant();
 
         customers.Clear();
-
         table.ClearTable(tableNumber);
+
         yield return null;
+    }
+
+    void SetOrder()
+    {
+        burgerGived = 0;
+        burgerNeeded = table.burgerOrder[tableNumber];
     }
 }
