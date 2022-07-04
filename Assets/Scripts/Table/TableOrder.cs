@@ -21,8 +21,6 @@ public class TableOrder : MonoBehaviour
 
     bool canPuttingBurger;
 
-    Coroutine customer;
-
     private void Awake()
     {
         table = GetComponentInParent<TableController>();
@@ -30,10 +28,6 @@ public class TableOrder : MonoBehaviour
 
     private void Update()
     {
-        //if (burgerNeeded == 0 && table.burgerOrder[tableNumber] != 0)
-        //{
-        //}
-
         if (canPuttingBurger && burgerGived < burgerNeeded && GameManager.Instance.PlayerStack > 0)
         {
             timer -= Time.deltaTime;
@@ -67,19 +61,20 @@ public class TableOrder : MonoBehaviour
 
         if (burgerNeeded == burgerGived && burgerGived != 0)
         {
-            customer = StartCoroutine(Completed());
+            StartCoroutine(Completed());
         }
         #endregion
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (canPuttingBurger)
+        if (other.CompareTag("Player"))
         {
-            canPuttingBurger = false;
+            if (canPuttingBurger)
+            {
+                canPuttingBurger = false;
+            }
         }
-
-
     }
 
 
