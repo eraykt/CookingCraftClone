@@ -11,6 +11,7 @@ public class TableOrder : MonoBehaviour
     [SerializeField] Transform stacks;
 
     public List<GameObject> customers = new List<GameObject>();
+    public List<GameObject> coins = new List<GameObject>();
 
     public int burgerNeeded;
     public int burgerGived;
@@ -20,6 +21,8 @@ public class TableOrder : MonoBehaviour
     float timer;
 
     bool canPuttingBurger;
+
+    bool timeToCollectCoin;
 
     private void Awake()
     {
@@ -54,6 +57,20 @@ public class TableOrder : MonoBehaviour
             if (burgerGived < burgerNeeded)
             {
                 canPuttingBurger = GameManager.Instance.PlayerStack > 0 && stacks.GetChild(GameManager.Instance.PlayerStack).gameObject.CompareTag("Burger") && isCustomerArrived;
+            }
+
+            if (timeToCollectCoin)
+            {
+                timeToCollectCoin = false;
+
+                for (int i = 0; i < burgerNeeded * 2; i++)
+                    Destroy(coins[i]);
+
+                GameManager.Instance.coin += burgerNeeded * 2;
+
+                coins.Clear();
+                customers.Clear();
+                table.ClearTable(tableNumber);
             }
         }
 
@@ -103,9 +120,22 @@ public class TableOrder : MonoBehaviour
         foreach (GameObject go in customers)
             go.GetComponent<CustomerController>().LeaveRestourant();
 
-        customers.Clear();
-        table.ClearTable(tableNumber);
+        StartCoroutine(CoinRain(burgerNeeded * 2));
 
+
+
+        yield return null;
+    }
+
+    IEnumerator CoinRain(int amount)
+    {
+        for (int i = 0; i < amount; i++)
+        {
+            yield return new WaitForSeconds(0.1f);
+            GameObject go = Instantiate(table.coinPrefab, new Vector3(transform.position.x, 4f, transform.position.z), table.coinPrefab.transform.rotation, transform.parent.GetChild(3).transform);
+            coins.Add(go);
+        }
+        timeToCollectCoin = true;
         yield return null;
     }
 

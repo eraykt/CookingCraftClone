@@ -12,9 +12,11 @@ public class TableController : MonoBehaviour
     public bool[] isEmpty;
     public int tableCount;
 
+
     [Header("Orders")]
     public int[] burgerOrder = new int[3];
 
+    public GameObject coinPrefab;
     public void ClearTable(int tableNo)
     {
         isEmpty[tableNo] = true;
