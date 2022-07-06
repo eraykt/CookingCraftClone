@@ -9,7 +9,7 @@ public class tableScript : MonoBehaviour
     public int tableCoin = 0;
     public int gerekliCoin = 10;
     public GameObject Table;
-
+    public TMPro.TextMeshPro text;
     public Collider col;
 
     static int i = 0;
@@ -32,6 +32,8 @@ public class tableScript : MonoBehaviour
         {
             BuildTable();
         }
+
+        text.text = $"{tableCoin}/{gerekliCoin}";
     }
     private void OnTriggerEnter(Collider col)
     {
@@ -40,6 +42,7 @@ public class tableScript : MonoBehaviour
             if (!jobDone)
             {
                 Table.transform.localScale = scaleChange * 2;
+                text.transform.localScale = text.transform.localScale * 2;
                 putcoin = StartCoroutine(putCoin());
 
             }
@@ -56,6 +59,7 @@ public class tableScript : MonoBehaviour
             if (!jobDone)
             {
                 Table.transform.localScale = scaleChange;
+                text.transform.localScale = text.transform.localScale / 2;
                 StopCoroutine(putcoin);
             }
 
@@ -104,6 +108,7 @@ public class tableScript : MonoBehaviour
         }
 
         Destroy(Table.gameObject);
+        Destroy(text.gameObject);
         Destroy(this.gameObject);
     }
 
