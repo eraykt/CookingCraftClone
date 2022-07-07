@@ -5,7 +5,7 @@ using UnityEngine;
 public class BakeryIn : MonoBehaviour
 {
     public int current;
-    [SerializeField] int max;
+    public int max = 4;
     [SerializeField] BakeryOut bakeryOut;
 
     [SerializeField] Transform stacks;

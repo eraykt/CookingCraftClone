@@ -11,18 +11,20 @@ public class TableOrder : MonoBehaviour
     [SerializeField] Transform stacks;
 
     public List<GameObject> customers = new List<GameObject>();
-    public List<GameObject> coins = new List<GameObject>();
+    List<GameObject> coins = new List<GameObject>();
 
     public int burgerNeeded;
     public int burgerGived;
 
-    bool isCustomerArrived;
+    public bool isCustomerArrived { get; set; }
 
     float timer;
 
     bool canPuttingBurger;
 
     bool timeToCollectCoin;
+
+    [SerializeField] OrderCanvas canvas;
 
     private void Awake()
     {
@@ -36,6 +38,7 @@ public class TableOrder : MonoBehaviour
             timer -= Time.deltaTime;
             PutBurgerToTable();
         }
+
     }
 
     private void OnTriggerEnter(Collider other)
@@ -45,6 +48,7 @@ public class TableOrder : MonoBehaviour
             if (other.GetComponent<CustomerController>().settedTable == tableNumber)
             {
                 isCustomerArrived = true;
+                canvas.ShowCanvas(isCustomerArrived);
                 SetOrder();
             }
         }
@@ -114,6 +118,7 @@ public class TableOrder : MonoBehaviour
     {
         burgerGived = 0;
         isCustomerArrived = false;
+        canvas.ShowCanvas(isCustomerArrived);
 
         yield return new WaitForSeconds(5f);
 
