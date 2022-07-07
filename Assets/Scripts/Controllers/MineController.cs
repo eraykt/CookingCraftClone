@@ -10,6 +10,7 @@ public class MineController : MonoBehaviour
     public float arrivingTime = 5f;
     int generated;
 
+    bool player;
 
     public Transform truckStack;
     public TruckController truck;
@@ -117,6 +118,7 @@ public class MineController : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            player = GameManager.Instance.PlayerStack < GameManager.Instance.PlayerStackLimit;
 
             if (collecting == null)
             {
@@ -133,27 +135,30 @@ public class MineController : MonoBehaviour
                 {
                     StopCoroutine(collecting); collecting = null;
                     StopCoroutine(stacks);
-                    isCollecting = false;
+                    isCollecting = false; player = false;
                 }
             }
         }
 
         if (other.CompareTag("Amele"))
         {
-            if (collectingE == null)
+            if (!player)
             {
-                if (Amele.instance.holding < Amele.instance.limit && index > 0)
+                if (collectingE == null)
                 {
-                    collectingE = StartCoroutine(CollectingE());
-                    stacksE = StartCoroutine(Amele.instance.AddStack(0));
+                    if (Amele.instance.holding < Amele.instance.limit && index > 0)
+                    {
+                        collectingE = StartCoroutine(CollectingE());
+                        stacksE = StartCoroutine(Amele.instance.AddStack(0));
+                    }
                 }
-            }
-            if (collectingE != null)
-            {
-                if (Amele.instance.holding == Amele.instance.limit || index == 0)
+                if (collectingE != null)
                 {
-                    StopCoroutine(collectingE); collectingE = null;
-                    StopCoroutine(stacksE);
+                    if (Amele.instance.holding == Amele.instance.limit || index == 0)
+                    {
+                        StopCoroutine(collectingE); collectingE = null;
+                        StopCoroutine(stacksE);
+                    }
                 }
             }
         }
@@ -168,6 +173,7 @@ public class MineController : MonoBehaviour
                 StopCoroutine(collecting); collecting = null;
                 StopCoroutine(stacks);
                 isCollecting = false;
+                player = false;
             }
         }
 

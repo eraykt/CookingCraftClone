@@ -13,6 +13,8 @@ public class BakeryOut : MonoBehaviour
     public float generatingSpeed = 3f;
     public bool CanCook = true;
 
+    bool player;
+
     public int meal;
 
     Coroutine collecting, stacks;
@@ -103,12 +105,14 @@ public class BakeryOut : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            player = GameManager.Instance.PlayerStack < GameManager.Instance.PlayerStackLimit;
             if (collecting == null)
             {
                 if (GameManager.Instance.PlayerStack < GameManager.Instance.PlayerStackLimit && cookedIndex > 0)
                 {
                     collecting = StartCoroutine(Collecting());
                     stacks = StartCoroutine(PlayerStacks.StackInstance.AddStack(1));
+
                 }
             }
 
@@ -118,6 +122,7 @@ public class BakeryOut : MonoBehaviour
                 {
                     StopCoroutine(collecting); collecting = null;
                     StopCoroutine(stacks);
+                    player = false;
                 }
             }
 
@@ -125,22 +130,26 @@ public class BakeryOut : MonoBehaviour
 
         if (other.CompareTag("Waitress"))
         {
-            if (collectingW == null)
+            if (!player)
             {
-                if (waitress.index < waitress.max && cookedIndex > 0)
+                if (collectingW == null)
                 {
-                    collectingW = StartCoroutine(CollectingW());
-                    stacksW = StartCoroutine(waitress.AddStack(1));
+                    if (waitress.index < waitress.max && cookedIndex > 0)
+                    {
+                        collectingW = StartCoroutine(CollectingW());
+                        stacksW = StartCoroutine(waitress.AddStack(1));
+                    }
                 }
-            }
 
-            if (collectingW != null)
-            {
-                if (waitress.index == waitress.max || cookedIndex == 0)
+                if (collectingW != null)
                 {
-                    StopCoroutine(collectingW); collectingW = null;
-                    StopCoroutine(stacksW);
+                    if (waitress.index == waitress.max || cookedIndex == 0)
+                    {
+                        StopCoroutine(collectingW); collectingW = null;
+                        StopCoroutine(stacksW);
+                    }
                 }
+
             }
         }
 
@@ -157,6 +166,7 @@ public class BakeryOut : MonoBehaviour
                 StopCoroutine(collecting); collecting = null;
                 StopCoroutine(stacks);
             }
+            player = false;
         }
 
         if (other.CompareTag("Waitress"))
