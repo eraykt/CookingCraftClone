@@ -9,6 +9,8 @@ TagManager:
   - Hammadde
   - Burger
   - Door
+  - Customer
+  - Amele
   layers:
   - Default
   - TransparentFX

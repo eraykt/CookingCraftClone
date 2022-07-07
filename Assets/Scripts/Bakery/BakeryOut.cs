@@ -20,44 +20,41 @@ public class BakeryOut : MonoBehaviour
 
     private void Start()
     {
-        // gameObject.SetActive(false);
         bakeryIn = transform.parent.GetComponentInChildren<BakeryIn>();
-        //animator = GetComponent<Animator>();
     }
 
     private void Update()
     {
         if (meal > 0)
         {
-            //gameObject.SetActive(true);
-            if (CanCook)
+            if (CanCook && cookedIndex != 27)
             {
                 CanCook = false;
                 StartCoroutine(Generator());
-
-                // animasyon
             }
+
         }
-        //else
-        //{
-        //    gameObject.SetActive(false);
-        //}
+
+        if (!CanCook && cookedIndex == 27)
+        {
+            StopCoroutine(Generator());
+            CanCook = true;
+        }
     }
 
     IEnumerator Generator()
     {
-        //Anim.SetTrigger("Bakery");
-        Anim.Play("bakery");
-        yield return new WaitForSeconds(generatingSpeed);
+        if (cookedIndex != 27)
+        {
+            Anim.Play("bakery");
+            yield return new WaitForSeconds(generatingSpeed);
 
-        //Anim.Play("bakery");
-
-        bakeryIn.current--;
-        mealTransform.transform.GetChild(cookedIndex).gameObject.SetActive(true);
-        cookedIndex++;
-        meal--;
-        CanCook = true;
-
+            bakeryIn.current--;
+            mealTransform.transform.GetChild(cookedIndex).gameObject.SetActive(true);
+            cookedIndex++;
+            meal--;
+            CanCook = true;
+        }
         yield return null;
     }
 

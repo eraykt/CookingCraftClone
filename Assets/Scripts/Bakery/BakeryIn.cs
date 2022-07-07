@@ -12,29 +12,40 @@ public class BakeryIn : MonoBehaviour
 
 
     float timer;
+    float timerE;
 
 
     bool isCollecting;
+    bool isCollectingEmployee;
     private void Start()
     {
         bakeryOut = transform.parent.GetComponentInChildren<BakeryOut>();
         timer = GameManager.Instance.puttingSpeed;
+        timerE = GameManager.Instance.puttingSpeed;
+
 
     }
 
 
     private void Update()
     {
-        if (isCollecting && current < max && GameManager.Instance.PlayerStack > 0 )
+        if (isCollecting && current < max && GameManager.Instance.PlayerStack > 0)
         {
             timer -= Time.deltaTime;
             AddObjToBakery();
+        }
+
+
+        if (isCollectingEmployee && current < max && Amele.instance.holding > 0)
+        {
+            timerE -= Time.deltaTime;
+            AddObjToBakeryEmployee();
         }
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (GameManager.Instance.PlayerStack > 0 && current < max && stacks.GetChild(GameManager.Instance.PlayerStack).gameObject.CompareTag("Hammadde"))
+        if (other.CompareTag("Player") && GameManager.Instance.PlayerStack > 0 && current < max && stacks.GetChild(GameManager.Instance.PlayerStack).gameObject.CompareTag("Hammadde"))
         {
             isCollecting = true;
         }
@@ -43,13 +54,31 @@ public class BakeryIn : MonoBehaviour
         {
             isCollecting = false;
         }
+
+
+
+
+        if (other.CompareTag("Amele") && Amele.instance.holding > 0 && current < max && Amele.instance.transform.GetChild(2).GetChild(Amele.instance.holding).gameObject.CompareTag("Hammadde"))
+        {
+            isCollectingEmployee = true;
+        }
+
+        if (!Amele.instance.transform.GetChild(2).GetChild(Amele.instance.holding).gameObject.CompareTag("Hammadde"))
+        {
+            isCollectingEmployee = false;
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (isCollecting)
+        if (other.CompareTag("Player") && isCollecting)
         {
             isCollecting = false;
+        }
+
+        if (other.CompareTag("Amele") && isCollectingEmployee)
+        {
+            isCollectingEmployee = false;
         }
     }
 
@@ -66,6 +95,17 @@ public class BakeryIn : MonoBehaviour
         if (current == max)
         {
             isCollecting = false;
+        }
+    }
+
+    private void AddObjToBakeryEmployee()
+    {
+        if (timerE < 0f)
+        {
+            current++;
+            Amele.instance.RemoveStack();
+            bakeryOut.meal++;
+            timerE = GameManager.Instance.puttingSpeed;
         }
     }
 }
