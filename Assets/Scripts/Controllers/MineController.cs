@@ -15,6 +15,7 @@ public class MineController : MonoBehaviour
     public TruckController truck;
 
     Coroutine collecting, stacks;
+    Coroutine collectingE, stacksE;
 
     public bool isTruckArrived, isTruckLeaving;
 
@@ -90,6 +91,7 @@ public class MineController : MonoBehaviour
         }
     }
 
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
@@ -98,6 +100,15 @@ public class MineController : MonoBehaviour
             {
                 collecting = StartCoroutine(Collecting());
                 stacks = StartCoroutine(PlayerStacks.StackInstance.AddStack(0));
+            }
+        }
+
+        if (other.gameObject.CompareTag("Amele"))
+        {
+            if (Amele.instance.holding < Amele.instance.limit && index > 0)
+            {
+                collectingE = StartCoroutine(CollectingE());
+                stacksE = StartCoroutine(Amele.instance.AddStack(0));
             }
         }
     }
@@ -125,8 +136,26 @@ public class MineController : MonoBehaviour
                     isCollecting = false;
                 }
             }
+        }
 
-
+        if (other.CompareTag("Amele"))
+        {
+            if (collectingE == null)
+            {
+                if (Amele.instance.holding < Amele.instance.limit && index > 0)
+                {
+                    collectingE = StartCoroutine(CollectingE());
+                    stacksE = StartCoroutine(Amele.instance.AddStack(0));
+                }
+            }
+            if (collectingE != null)
+            {
+                if (Amele.instance.holding == Amele.instance.limit || index == 0)
+                {
+                    StopCoroutine(collectingE); collectingE = null;
+                    StopCoroutine(stacksE);
+                }
+            }
         }
     }
 
@@ -141,5 +170,30 @@ public class MineController : MonoBehaviour
                 isCollecting = false;
             }
         }
+
+        if (other.CompareTag("Amele"))
+        {
+            if (collectingE != null)
+            {
+                StopCoroutine(collectingE);
+                StopCoroutine(stacksE);
+            }
+        }
     }
+
+
+    IEnumerator CollectingE()
+    {
+        while (index > 0)
+        {
+            yield return new WaitForSeconds(GameManager.Instance.collectingSpeed);
+            index--;
+            transform.GetChild(index).gameObject.SetActive(false);
+            if (Amele.instance.holding == Amele.instance.limit - 1)
+                break;
+
+            yield return null;
+        }
+    }
+
 }
