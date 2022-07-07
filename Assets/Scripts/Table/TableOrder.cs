@@ -18,17 +18,26 @@ public class TableOrder : MonoBehaviour
 
     public bool isCustomerArrived { get; set; }
 
-    float timer;
+    float timer, timerW;
 
     bool canPuttingBurger;
+    bool canPuttingBurgerW;
 
     bool timeToCollectCoin;
 
     [SerializeField] OrderCanvas canvas;
 
+    [SerializeField] Waitress waitress;
+
     private void Awake()
     {
         table = GetComponentInParent<TableController>();
+    }
+
+    private void Start()
+    {
+        timer = GameManager.Instance.puttingSpeed;
+        timerW = GameManager.Instance.puttingSpeed;
     }
 
     private void Update()
@@ -39,6 +48,11 @@ public class TableOrder : MonoBehaviour
             PutBurgerToTable();
         }
 
+        if (canPuttingBurgerW && burgerGived < burgerNeeded && waitress.index > 0)
+        {
+            timerW -= Time.deltaTime;
+            PutBurgerToTableW();
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -78,6 +92,14 @@ public class TableOrder : MonoBehaviour
             }
         }
 
+
+        if (other.CompareTag("Waitress"))
+        {
+            if (burgerGived < burgerNeeded)
+            {
+                canPuttingBurgerW = waitress.index > 0 && isCustomerArrived;
+            }
+        }
         #region Siparisler tamamlandiginda
 
         if (burgerNeeded == burgerGived && burgerGived != 0)
@@ -96,6 +118,14 @@ public class TableOrder : MonoBehaviour
                 canPuttingBurger = false;
             }
         }
+
+        if (other.CompareTag("Waitress"))
+        {
+            if (canPuttingBurgerW)
+            {
+                canPuttingBurgerW = false;
+            }
+        }
     }
 
 
@@ -111,6 +141,21 @@ public class TableOrder : MonoBehaviour
         if (burgerGived == burgerNeeded)
         {
             canPuttingBurger = false;
+        }
+    }
+
+    void PutBurgerToTableW()
+    {
+        if (timerW < 0f)
+        {
+            burgerGived++;
+            waitress.RemoveStack();
+            timerW = GameManager.Instance.puttingSpeed;
+        }
+
+        if (burgerGived == burgerNeeded)
+        {
+            canPuttingBurgerW = false;
         }
     }
 

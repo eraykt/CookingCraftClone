@@ -165,7 +165,7 @@ public class MineController : MonoBehaviour
         {
             if (collecting != null)
             {
-                StopCoroutine(collecting);
+                StopCoroutine(collecting); collecting = null;
                 StopCoroutine(stacks);
                 isCollecting = false;
             }
@@ -175,7 +175,7 @@ public class MineController : MonoBehaviour
         {
             if (collectingE != null)
             {
-                StopCoroutine(collectingE);
+                StopCoroutine(collectingE); collectingE = null;
                 StopCoroutine(stacksE);
             }
         }

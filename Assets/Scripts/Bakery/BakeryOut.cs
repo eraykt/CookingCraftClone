@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class BakeryOut : MonoBehaviour
 {
-    //public GameObject hammadde;
     public int cookedIndex;
-    //Animator animator;
     [SerializeField] int max;
     [SerializeField] Transform mealTransform;
     public Animator Anim;
@@ -16,7 +14,11 @@ public class BakeryOut : MonoBehaviour
     public bool CanCook = true;
 
     public int meal;
+
     Coroutine collecting, stacks;
+    Coroutine collectingW, stacksW;
+
+    [SerializeField] Waitress waitress;
 
     private void Start()
     {
@@ -85,6 +87,15 @@ public class BakeryOut : MonoBehaviour
                 stacks = StartCoroutine(PlayerStacks.StackInstance.AddStack(1));
             }
         }
+
+        if (other.CompareTag("Waitress"))
+        {
+            if (waitress.index < waitress.max && cookedIndex > 0)
+            {
+                collectingW = StartCoroutine(CollectingW());
+                stacksW = StartCoroutine(waitress.AddStack(1));
+            }
+        }
     }
 
 
@@ -111,20 +122,67 @@ public class BakeryOut : MonoBehaviour
             }
 
         }
+
+        if (other.CompareTag("Waitress"))
+        {
+            if (collectingW == null)
+            {
+                if (waitress.index < waitress.max && cookedIndex > 0)
+                {
+                    collectingW = StartCoroutine(CollectingW());
+                    stacksW = StartCoroutine(waitress.AddStack(1));
+                }
+            }
+
+            if (collectingW != null)
+            {
+                if (waitress.index == waitress.max || cookedIndex == 0)
+                {
+                    StopCoroutine(collectingW); collectingW = null;
+                    StopCoroutine(stacksW);
+                }
+            }
+        }
+
     }
 
 
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.CompareTag("Player"))
         {
-            if (collecting != null && stacks != null)
+            if (collecting != null)
             {
-                StopCoroutine(collecting);
+                StopCoroutine(collecting); collecting = null;
                 StopCoroutine(stacks);
             }
+        }
 
+        if (other.CompareTag("Waitress"))
+        {
+            if (collectingW != null)
+            {
+                StopCoroutine(collectingW); collectingW = null;
+                StopCoroutine(stacksW);
+            }
+        }
+    }
+
+
+    IEnumerator CollectingW()
+    {
+        while (cookedIndex > 0)
+        {
+            yield return new WaitForSeconds(GameManager.Instance.collectingSpeed);
+
+            cookedIndex--;
+            mealTransform.transform.GetChild(cookedIndex).gameObject.SetActive(false);
+
+            if (waitress.index == waitress.max - 1)
+                break;
+
+            yield return null;
         }
     }
 
