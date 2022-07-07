@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerStacks : MonoBehaviour
 {
-    [SerializeField] GameObject[] stackPrefabs;
+    public GameObject[] stackPrefabs;
     [SerializeField] Transform objTransform;
     [SerializeField] float distance;
 
