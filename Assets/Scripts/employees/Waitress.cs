@@ -16,10 +16,13 @@ public class Waitress : MonoBehaviour
 
     Vector3 sPoint;
 
+    int activeTable = 0;
+
     float distance = 0.3f;
 
     bool isWalking, isHolding;
 
+    bool refilled;
 
     public int index, max = 4;
 
@@ -40,21 +43,33 @@ public class Waitress : MonoBehaviour
         if (index == 0 && bakery.cookedIndex > 0)
         {
             agent.SetDestination(bakery.transform.position);
+        }
 
+        if (index == max)
+        {
+            refilled = true;
         }
 
         if (LocateTable() != -1)
         {
-            if (index == max || tables[LocateTable()].burgerNeeded - tables[LocateTable()].burgerGived == index)
+            if (tables[LocateTable()].burgerNeeded - tables[LocateTable()].burgerGived == index || refilled)
             {
                 agent.SetDestination(deliver[LocateTable()].position);
+
+                if (index == 0)
+                {
+                    refilled = false;
+                }
             }
         }
 
         if (LocateTable() == -1)
         {
             if (index < max)
+            {
                 agent.SetDestination(bakery.transform.position);
+                refilled = false;
+            }
         }
 
         isWalking = agent.velocity != Vector3.zero;
@@ -89,34 +104,94 @@ public class Waitress : MonoBehaviour
     int LocateTable()
     {
         int index = -1;
-        for (int i = 0; i < tables.Length; i++)
+        int i = 0;
+
+        int mini = -1;
+
+        if (activeTable != tables.Length)
         {
-            if (tables[i].gameObject.activeSelf && tables[i].burgerNeeded != 0 && tables[i].isCustomerArrived)
+            foreach (TableOrder to in tables)
+                if (to.gameObject.activeSelf)
+                    activeTable++;
+        }
+
+
+        if (activeTable != 1)
+        {
+            int[] masalar = new int[activeTable];
+
+            for (i = 0; i < activeTable; i++)
             {
-                if (i > 0)
+                if (tables[i].isCustomerArrived)
                 {
-                    if (tables[i - 1].gameObject.activeSelf && tables[i - 1].burgerNeeded != 0 && tables[i - 1].isCustomerArrived)
-                    {
-                        if (tables[i].burgerNeeded - tables[i].burgerGived > tables[i - 1].burgerNeeded - tables[i - 1].burgerGived)
-                        {
-                            index = i - 1;
-                        }
-                    }
-                    
-                    else if (index == -1)
+                    masalar[i] = tables[i].burgerNeeded - tables[i].burgerGived;
+                }
+
+                else
+                {
+                    masalar[i] = -1;
+                }
+            }
+
+            System.Array.Sort(masalar);
+
+            for (i = 0; i < activeTable; i++)
+            {
+                if (masalar[i] == -1)
+                    continue;
+
+                mini = masalar[i];
+                break;
+            }
+
+            for (i = 0; i < activeTable; i++)
+            {
+                if (tables[i].isCustomerArrived)
+                {
+                    if (tables[i].burgerNeeded - tables[i].burgerGived == mini)
                     {
                         index = i;
                     }
-
-                }
-                else
-                {
-                    index = i;
                 }
             }
+
+        }
+
+        else
+        {
+            if (tables[0].isCustomerArrived)
+                index = 0;
         }
 
         return index;
+
+
+        //for (i = 0; i < tables.Length; i++)
+        //{
+        //    if (tables[i].gameObject.activeSelf && tables[i].burgerNeeded != 0 && tables[i].isCustomerArrived)
+        //    {
+        //        if (i > 0)
+        //        {
+        //            if (tables[i - 1].gameObject.activeSelf && tables[i - 1].burgerNeeded != 0 && tables[i - 1].isCustomerArrived)
+        //            {
+        //                if (tables[i].burgerNeeded - tables[i].burgerGived > tables[i - 1].burgerNeeded - tables[i - 1].burgerGived)
+        //                {
+        //                    index = i - 1;
+        //                }
+        //            }
+
+        //            else if (index == -1)
+        //            {
+        //                index = i;
+        //            }
+
+        //        }
+        //        else
+        //        {
+        //            index = i;
+        //        }
+        //    }
+        //}
     }
 
 }
