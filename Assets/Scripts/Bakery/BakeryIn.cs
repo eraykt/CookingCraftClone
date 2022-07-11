@@ -63,7 +63,7 @@ public class BakeryIn : MonoBehaviour
             isCollectingEmployee = true;
         }
 
-        if (!Amele.instance.transform.GetChild(2).GetChild(Amele.instance.holding).gameObject.CompareTag("Hammadde"))
+        if (other.CompareTag("Amele") && !Amele.instance.transform.GetChild(2).GetChild(Amele.instance.holding).gameObject.CompareTag("Hammadde"))
         {
             isCollectingEmployee = false;
         }
