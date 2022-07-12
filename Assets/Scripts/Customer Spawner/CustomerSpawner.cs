@@ -8,6 +8,7 @@ public class CustomerSpawner : MonoBehaviour
     [SerializeField] Transform SpawnPoint;
     [SerializeField] TableController table;
 
+    [SerializeField] int level;
 
     [SerializeField] float min, max;
 
@@ -56,7 +57,21 @@ public class CustomerSpawner : MonoBehaviour
                 go.GetComponent<CustomerController>().WalkToTable(table.tables[j].GetChild(i).transform);
                 go.GetComponent<CustomerController>().settedTable = j;
                 table.transform.GetChild(j).GetComponent<TableOrder>().customers.Add(go);
-                table.burgerOrder[j] += go.GetComponent<CustomerController>().BurgerOrder();
+
+                switch (level)
+                {
+                    case 1:
+                        table.burgerOrder[j] += go.GetComponent<CustomerController>().BurgerOrder();
+                        break;
+
+                    case 2:
+                        table.hotdogOrder[j] += go.GetComponent<CustomerController>().HotDogOrder();
+                        table.pizzaOrder[j] += go.GetComponent<CustomerController>().PizzaOrder();
+                        break;
+
+                }
+
+
             }
         }
     }

@@ -7,7 +7,7 @@ public class Amele : MonoBehaviour
     public static Amele instance { get; private set; }
 
     [SerializeField] MineController mine;
-    [SerializeField] BakeryIn bakery;
+    [SerializeField] BakeryIn[] bakery;
 
     bool isWalking;
     bool isHolding;
@@ -28,15 +28,35 @@ public class Amele : MonoBehaviour
 
     private void Update()
     {
-        if (mine.index > 0 && bakery.current < bakery.max && holding == 0)
+        //if (bakery.Length == 1)
+        //{
+        //    if (mine.index > 0 && bakery[0].current < bakery[0].max && holding == 0)
+        //    {
+        //        agent.SetDestination(mine.transform.position);
+        //    }
+
+        //    if (holding == limit && bakery[0].current < bakery[0].max)
+        //    {
+        //        agent.SetDestination(bakery[0].transform.GetChild(0).transform.position);
+        //    }
+        //}
+
+        //else
+        //{
+        //if (LocateBakery() != -1)
+        //{
+        if (holding == 0 && mine.index > 0)
         {
             agent.SetDestination(mine.transform.position);
         }
 
-        if (holding == limit && bakery.current < bakery.max)
+        if (holding == limit && bakery[LocateBakery()].current < bakery[LocateBakery()].max)
         {
-            agent.SetDestination(bakery.transform.GetChild(0).transform.position);
+            agent.SetDestination(bakery[LocateBakery()].transform.GetChild(0).transform.position);
+
         }
+        //}
+        //}
 
         isWalking = agent.velocity != Vector3.zero;
         isHolding = holding > 0;
@@ -65,5 +85,23 @@ public class Amele : MonoBehaviour
         Destroy(objTransform.transform.parent.GetChild(holding).gameObject);
         holding--;
         objTransform.transform.position = new Vector3(objTransform.transform.position.x, objTransform.transform.position.y - distance, objTransform.transform.position.z);
+    }
+
+    int LocateBakery()
+    {
+        if (holding == limit)
+        {
+            if (bakery[1].current < bakery[0].current)
+            {
+                return 1;
+            }
+
+            else
+            {
+                return 0;
+            }
+        }
+
+        return -1;
     }
 }

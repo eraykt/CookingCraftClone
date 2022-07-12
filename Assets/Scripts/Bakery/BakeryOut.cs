@@ -10,6 +10,8 @@ public class BakeryOut : MonoBehaviour
     public Animator Anim;
     BakeryIn bakeryIn;
 
+    [SerializeField] int stackIndex;
+
     public float generatingSpeed = 3f;
     public bool CanCook = true;
 
@@ -86,7 +88,7 @@ public class BakeryOut : MonoBehaviour
             if (GameManager.Instance.PlayerStack < GameManager.Instance.PlayerStackLimit && cookedIndex > 0)
             {
                 collecting = StartCoroutine(Collecting());
-                stacks = StartCoroutine(PlayerStacks.StackInstance.AddStack(1));
+                stacks = StartCoroutine(PlayerStacks.StackInstance.AddStack(stackIndex));
             }
         }
 
@@ -111,7 +113,7 @@ public class BakeryOut : MonoBehaviour
                 if (GameManager.Instance.PlayerStack < GameManager.Instance.PlayerStackLimit && cookedIndex > 0)
                 {
                     collecting = StartCoroutine(Collecting());
-                    stacks = StartCoroutine(PlayerStacks.StackInstance.AddStack(1));
+                    stacks = StartCoroutine(PlayerStacks.StackInstance.AddStack(stackIndex));
 
                 }
             }
@@ -137,7 +139,7 @@ public class BakeryOut : MonoBehaviour
                     if (waitress.index < waitress.max && cookedIndex > 0)
                     {
                         collectingW = StartCoroutine(CollectingW());
-                        stacksW = StartCoroutine(waitress.AddStack(1));
+                        stacksW = StartCoroutine(waitress.AddStack(stackIndex));
                     }
                 }
 

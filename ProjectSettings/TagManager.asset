@@ -12,6 +12,8 @@ TagManager:
   - Customer
   - Amele
   - Waitress
+  - Sosisli
+  - Pizza
   layers:
   - Default
   - TransparentFX

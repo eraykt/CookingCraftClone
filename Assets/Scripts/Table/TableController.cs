@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TableController : MonoBehaviour
 {
+
     [Header("Table Transforms")]
     public Transform[] tables;
     public List<Transform> tablesList = new List<Transform>();
@@ -15,6 +16,8 @@ public class TableController : MonoBehaviour
 
     [Header("Orders")]
     public int[] burgerOrder = new int[3];
+    public int[] hotdogOrder = new int[3];
+    public int[] pizzaOrder = new int[3];
 
     public GameObject coinPrefab;
     public void ClearTable(int tableNo)
@@ -22,5 +25,7 @@ public class TableController : MonoBehaviour
         isEmpty[tableNo] = true;
         tableCount++;
         burgerOrder[tableNo] = 0;
+        hotdogOrder[tableNo] = 0;
+        pizzaOrder[tableNo] = 0;
     }
 }

@@ -16,12 +16,23 @@ public class TableOrder : MonoBehaviour
     public int burgerNeeded;
     public int burgerGived;
 
+    public int hotdogNeeded;
+    public int hotdogGived;
+
+    public int pizzaNeeded;
+    public int pizzaGived;
+
+    bool jobDone;
+
     public bool isCustomerArrived { get; set; }
 
     float timer, timerW;
 
     bool canPuttingBurger;
     bool canPuttingBurgerW;
+
+    bool canPuttingHotdog;
+    bool canPuttingPizza;
 
     bool timeToCollectCoin;
 
@@ -53,6 +64,25 @@ public class TableOrder : MonoBehaviour
             timerW -= Time.deltaTime;
             PutBurgerToTableW();
         }
+
+
+        if (canPuttingHotdog && hotdogGived < hotdogNeeded && GameManager.Instance.PlayerStack > 0)
+        {
+            timer -= Time.deltaTime;
+            PutHotdogToTable();
+        }
+
+        if (canPuttingPizza && pizzaGived < pizzaNeeded && GameManager.Instance.PlayerStack > 0)
+        {
+            timer -= Time.deltaTime;
+            PutPizzaToTable();
+        }
+
+
+        if (burgerGived == burgerNeeded && pizzaNeeded == pizzaGived && hotdogNeeded == hotdogGived && isCustomerArrived)
+        {
+            jobDone = true;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -77,14 +107,24 @@ public class TableOrder : MonoBehaviour
                 canPuttingBurger = GameManager.Instance.PlayerStack > 0 && stacks.GetChild(GameManager.Instance.PlayerStack).gameObject.CompareTag("Burger") && isCustomerArrived;
             }
 
+            if (hotdogGived < hotdogNeeded)
+            {
+                canPuttingHotdog = GameManager.Instance.PlayerStack > 0 && stacks.GetChild(GameManager.Instance.PlayerStack).gameObject.CompareTag("Sosisli") && isCustomerArrived;
+            }
+
+            if (pizzaGived < pizzaNeeded)
+            {
+                canPuttingPizza = GameManager.Instance.PlayerStack > 0 && stacks.GetChild(GameManager.Instance.PlayerStack).gameObject.CompareTag("Pizza") && isCustomerArrived;
+            }
+
             if (timeToCollectCoin)
             {
                 timeToCollectCoin = false;
 
-                for (int i = 0; i < burgerNeeded * 2; i++)
+                for (int i = 0; i < (burgerNeeded * 2) + hotdogNeeded + pizzaNeeded; i++)
                     Destroy(coins[i]);
 
-                GameManager.Instance.coin += burgerNeeded * 2;
+                GameManager.Instance.coin += (burgerNeeded * 2) + hotdogNeeded + pizzaNeeded;
 
                 coins.Clear();
                 customers.Clear();
@@ -102,8 +142,9 @@ public class TableOrder : MonoBehaviour
         }
         #region Siparisler tamamlandiginda
 
-        if (burgerNeeded == burgerGived && burgerGived != 0)
+        if (jobDone /*&& burgerGived != 0*/)
         {
+            jobDone = false;
             StartCoroutine(Completed());
         }
         #endregion
@@ -116,6 +157,8 @@ public class TableOrder : MonoBehaviour
             if (canPuttingBurger)
             {
                 canPuttingBurger = false;
+                canPuttingHotdog = false;
+                canPuttingPizza = false;
             }
         }
 
@@ -144,6 +187,38 @@ public class TableOrder : MonoBehaviour
         }
     }
 
+    void PutHotdogToTable()
+    {
+        if (timer < 0f)
+        {
+            hotdogGived++;
+            PlayerStacks.StackInstance.RemoveStack();
+            timer = GameManager.Instance.puttingSpeed;
+        }
+
+        if (hotdogGived == hotdogNeeded)
+        {
+            canPuttingHotdog = false;
+        }
+    }
+
+    void PutPizzaToTable()
+    {
+        if (timer < 0f)
+        {
+            pizzaGived++;
+            PlayerStacks.StackInstance.RemoveStack();
+            timer = GameManager.Instance.puttingSpeed;
+        }
+
+        if (pizzaGived == pizzaNeeded)
+        {
+            canPuttingPizza = false;
+        }
+    }
+
+
+
     void PutBurgerToTableW()
     {
         if (timerW < 0f)
@@ -162,6 +237,8 @@ public class TableOrder : MonoBehaviour
     IEnumerator Completed()
     {
         burgerGived = 0;
+        hotdogGived = 0;
+        pizzaGived = 0;
         isCustomerArrived = false;
         canvas.ShowCanvas(isCustomerArrived);
 
@@ -170,7 +247,7 @@ public class TableOrder : MonoBehaviour
         foreach (GameObject go in customers)
             go.GetComponent<CustomerController>().LeaveRestourant();
 
-        StartCoroutine(CoinRain(burgerNeeded * 2));
+        StartCoroutine(CoinRain((burgerNeeded * 2) + hotdogNeeded + pizzaNeeded));
 
 
 
@@ -192,6 +269,10 @@ public class TableOrder : MonoBehaviour
     void SetOrder()
     {
         burgerGived = 0;
+        pizzaGived = 0;
+        hotdogGived = 0;
         burgerNeeded = table.burgerOrder[tableNumber];
+        pizzaNeeded = table.pizzaOrder[tableNumber];
+        hotdogNeeded = table.hotdogOrder[tableNumber];
     }
 }

@@ -1,23 +1,42 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class OrderCanvas : MonoBehaviour
 {
-    TMPro.TextMeshProUGUI text;
+    [SerializeField] int currentLevel;
+
+
+    [SerializeField] TMPro.TextMeshProUGUI bText, hText, pText;
+
+
+
+
     TableOrder table;
     [SerializeField] Camera cam;
+
 
     private void Awake()
     {
         table = GetComponentInParent<TableOrder>();
-        text = GetComponentInChildren<TMPro.TextMeshProUGUI>();
     }
 
     private void Update()
     {
         transform.LookAt(cam.transform);
-        text.text = table.burgerNeeded - table.burgerGived + "";
+
+        switch (currentLevel)
+        {
+            case 1:
+                bText.text = table.burgerNeeded - table.burgerGived + "";
+                break;
+
+            case 2:
+                hText.text = table.hotdogNeeded - table.hotdogGived + "";
+                pText.text = table.pizzaNeeded - table.pizzaGived + "";
+                break;
+        }
     }
 
     public void ShowCanvas(bool open)

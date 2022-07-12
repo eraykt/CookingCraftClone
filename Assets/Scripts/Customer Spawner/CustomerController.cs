@@ -54,4 +54,14 @@ public class CustomerController : MonoBehaviour
     {
         return Random.Range(2, 5);
     }
+
+    public int HotDogOrder()
+    {
+        return Random.Range(1, 5);
+    }
+
+    public int PizzaOrder()
+    {
+        return Random.Range(1, 5);
+    }
 }
