@@ -26343,6 +26343,8 @@ MonoBehaviour:
   text: {fileID: 1349448572}
   size: 1.5
   upgradeAmount: 8
+  currentLevel: 2
+  player: {fileID: 851471900}
 --- !u!136 &2025143021
 CapsuleCollider:
   m_ObjectHideFlags: 0

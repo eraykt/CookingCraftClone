@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 touchUp;
 
     public float fixedSpeed;
-    [SerializeField] float maxSpeed = 500f;
+    public float maxSpeed = 80f;
 
     [SerializeField] private float movementSpeed = 3;
     [SerializeField] private float rotationSpeed = 300f;
