@@ -8509,6 +8509,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36449fcf9ec87fe468c7edc559364719, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  level: 1
 --- !u!65 &858319926
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -14813,6 +14814,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tableNumber: 1
   stacks: {fileID: 894228037}
+  stacksW: {fileID: 0}
   customers: []
   burgerNeeded: 0
   burgerGived: 0
@@ -14903,6 +14905,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tableNumber: 2
   stacks: {fileID: 894228037}
+  stacksW: {fileID: 0}
   customers: []
   burgerNeeded: 0
   burgerGived: 0
@@ -15661,6 +15664,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tableNumber: 0
   stacks: {fileID: 894228037}
+  stacksW: {fileID: 0}
   customers: []
   burgerNeeded: 0
   burgerGived: 0
@@ -17782,6 +17786,8 @@ MonoBehaviour:
   text: {fileID: 1349448572}
   size: 1.5
   upgradeAmount: 8
+  currentLevel: 0
+  player: {fileID: 0}
 --- !u!136 &2025143021
 CapsuleCollider:
   m_ObjectHideFlags: 0
