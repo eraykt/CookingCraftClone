@@ -9241,6 +9241,17 @@ Transform:
   m_Father: {fileID: 1137948689}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &953193133 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4563420038100999278, guid: 20ba22b55b68af141aba9a1f3c4871cf, type: 3}
+  m_PrefabInstance: {fileID: 4563420037249544818}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d51c61f988e9f141a6015bf5b634f1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!20 &963194227 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 6038804888420626793, guid: 24f86c2e78c438d46b889843d49ae6ac, type: 3}
@@ -17786,8 +17797,8 @@ MonoBehaviour:
   text: {fileID: 1349448572}
   size: 1.5
   upgradeAmount: 8
-  currentLevel: 0
-  player: {fileID: 0}
+  currentLevel: 1
+  player: {fileID: 953193133}
 --- !u!136 &2025143021
 CapsuleCollider:
   m_ObjectHideFlags: 0

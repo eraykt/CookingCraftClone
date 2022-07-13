@@ -9,7 +9,17 @@ public class NextLevelTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            SceneManager.LoadScene(level);
+            StartCoroutine(loading());
+        }
+    }
+
+
+    IEnumerator loading()
+    {
+        AsyncOperation async = SceneManager.LoadSceneAsync(level);
+        while (!async.isDone)
+        {
+            yield return null;
         }
     }
 }
