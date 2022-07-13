@@ -97,7 +97,7 @@ public class BakeryOut : MonoBehaviour
             if (waitress.index < waitress.max && cookedIndex > 0)
             {
                 collectingW = StartCoroutine(CollectingW());
-                stacksW = StartCoroutine(waitress.AddStack(1));
+                stacksW = StartCoroutine(waitress.AddStack(stackIndex));
             }
         }
     }

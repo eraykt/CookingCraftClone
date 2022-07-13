@@ -9,6 +9,7 @@ public class TableOrder : MonoBehaviour
     public int tableNumber;
 
     [SerializeField] Transform stacks;
+    [SerializeField] Transform stacksW;
 
     public List<GameObject> customers = new List<GameObject>();
     List<GameObject> coins = new List<GameObject>();
@@ -30,9 +31,10 @@ public class TableOrder : MonoBehaviour
 
     bool canPuttingBurger;
     bool canPuttingBurgerW;
-
     bool canPuttingHotdog;
+    bool canPuttingHotdogW;
     bool canPuttingPizza;
+    bool canPuttingPizzaW;
 
     bool timeToCollectCoin;
 
@@ -72,12 +74,23 @@ public class TableOrder : MonoBehaviour
             PutHotdogToTable();
         }
 
+        if (canPuttingHotdogW && hotdogGived < hotdogNeeded && waitress.index > 0)
+        {
+            timerW -= Time.deltaTime;
+            PutHotdogToTableW();
+        }
+
         if (canPuttingPizza && pizzaGived < pizzaNeeded && GameManager.Instance.PlayerStack > 0)
         {
             timer -= Time.deltaTime;
             PutPizzaToTable();
         }
 
+        if (canPuttingPizzaW && pizzaGived < pizzaNeeded && waitress.index > 0)
+        {
+            timerW -= Time.deltaTime;
+            PutPizzaToTableW();
+        }
 
         if (burgerGived == burgerNeeded && pizzaNeeded == pizzaGived && hotdogNeeded == hotdogGived && isCustomerArrived)
         {
@@ -139,6 +152,16 @@ public class TableOrder : MonoBehaviour
             {
                 canPuttingBurgerW = waitress.index > 0 && isCustomerArrived;
             }
+
+            if (hotdogGived < hotdogNeeded)
+            {
+                canPuttingHotdogW = waitress.index > 0 && stacksW.GetChild(waitress.index).gameObject.CompareTag("Sosisli") && isCustomerArrived;
+            }
+
+            if (pizzaGived < pizzaNeeded)
+            {
+                canPuttingPizzaW = waitress.index > 0 && stacksW.GetChild(waitress.index).gameObject.CompareTag("Pizza") && isCustomerArrived;
+            }
         }
         #region Siparisler tamamlandiginda
 
@@ -167,6 +190,8 @@ public class TableOrder : MonoBehaviour
             if (canPuttingBurgerW)
             {
                 canPuttingBurgerW = false;
+                canPuttingHotdogW = false;
+                canPuttingPizzaW = false;
             }
         }
     }
@@ -231,6 +256,36 @@ public class TableOrder : MonoBehaviour
         if (burgerGived == burgerNeeded)
         {
             canPuttingBurgerW = false;
+        }
+    }
+
+    void PutHotdogToTableW()
+    {
+        if (timerW < 0f)
+        {
+            hotdogGived++;
+            waitress.RemoveStack();
+            timerW = GameManager.Instance.puttingSpeed;
+        }
+
+        if (hotdogGived == hotdogNeeded)
+        {
+            canPuttingHotdogW = false;
+        }
+    }
+
+    void PutPizzaToTableW()
+    {
+        if (timerW < 0f)
+        {
+            pizzaGived++;
+            waitress.RemoveStack();
+            timerW = GameManager.Instance.puttingSpeed;
+        }
+
+        if (pizzaGived == pizzaNeeded)
+        {
+            canPuttingPizzaW = false;
         }
     }
 

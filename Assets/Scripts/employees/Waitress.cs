@@ -7,14 +7,15 @@ public class Waitress : MonoBehaviour
 {
     NavMeshAgent agent;
 
-    [SerializeField] BakeryOut bakery;
+    [SerializeField] BakeryOut hotdog;
+    [SerializeField] BakeryOut pizza;
+
 
     [SerializeField] TableOrder[] tables;
     [SerializeField] Transform[] deliver;
 
-    [SerializeField] Transform objTransform;
+    public Transform objTransform;
 
-    Vector3 sPoint;
 
     int activeTable = 0;
 
@@ -32,17 +33,16 @@ public class Waitress : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
     }
 
-
-    private void Start()
-    {
-        sPoint = transform.position;
-    }
-
     private void Update()
     {
-        if (index == 0 && bakery.cookedIndex > 0)
+        if (index == 0 && pizza.cookedIndex <= hotdog.cookedIndex)
         {
-            agent.SetDestination(bakery.transform.position);
+            agent.SetDestination(hotdog.transform.position);
+        }
+
+        else if (index == 0 && hotdog.cookedIndex < pizza.cookedIndex)
+        {
+            agent.SetDestination(pizza.transform.position);
         }
 
         if (index == max)
@@ -52,13 +52,29 @@ public class Waitress : MonoBehaviour
 
         if (LocateTable() != -1)
         {
-            if (tables[LocateTable()].burgerNeeded - tables[LocateTable()].burgerGived == index || refilled)
+            if (objTransform.parent.GetChild(index).CompareTag("Pizza"))
             {
-                agent.SetDestination(deliver[LocateTable()].position);
-
-                if (index == 0)
+                if ((tables[LocateTable()].pizzaNeeded - tables[LocateTable()].pizzaGived == index && index != 0) || refilled)
                 {
-                    refilled = false;
+                    agent.SetDestination(deliver[LocateTable()].position);
+
+                    if (index == 0)
+                    {
+                        refilled = false;
+                    }
+                }
+            }
+
+            else
+            {
+                if ((tables[LocateTable()].hotdogNeeded - tables[LocateTable()].hotdogGived == index && index != 0) || refilled)
+                {
+                    agent.SetDestination(deliver[LocateTable()].position);
+
+                    if (index == 0)
+                    {
+                        refilled = false;
+                    }
                 }
             }
         }
@@ -67,8 +83,17 @@ public class Waitress : MonoBehaviour
         {
             if (index < max)
             {
-                agent.SetDestination(bakery.transform.position);
-                refilled = false;
+                if (pizza.cookedIndex < hotdog.cookedIndex)
+                {
+                    agent.SetDestination(pizza.transform.position);
+                    refilled = false;
+                }
+
+                else if (hotdog.cookedIndex >= pizza.cookedIndex)
+                {
+                    agent.SetDestination(pizza.transform.position);
+                    refilled = false;
+                }
             }
         }
 
@@ -106,7 +131,8 @@ public class Waitress : MonoBehaviour
         int index = -1;
         int i = 0;
 
-        int mini = -1;
+        int miniH = -1;
+        int miniP = -1;
 
         if (activeTable != tables.Length)
         {
@@ -118,42 +144,73 @@ public class Waitress : MonoBehaviour
 
         if (activeTable != 1)
         {
-            int[] masalar = new int[activeTable];
+            int[] hotdogMasa = new int[activeTable];
+            int[] pizzaMasa = new int[activeTable];
 
             for (i = 0; i < activeTable; i++)
             {
                 if (tables[i].isCustomerArrived)
                 {
-                    masalar[i] = tables[i].burgerNeeded - tables[i].burgerGived;
+                    hotdogMasa[i] = tables[i].hotdogNeeded - tables[i].hotdogGived;
+                    pizzaMasa[i] = tables[i].pizzaNeeded - tables[i].pizzaGived;
                 }
 
                 else
                 {
-                    masalar[i] = -1;
+                    hotdogMasa[i] = -1;
+                    pizzaMasa[i] = -1;
                 }
             }
 
-            System.Array.Sort(masalar);
+            System.Array.Sort(hotdogMasa);
+            System.Array.Sort(pizzaMasa);
 
             for (i = 0; i < activeTable; i++)
             {
-                if (masalar[i] == -1)
+                if (hotdogMasa[i] == -1 || hotdogMasa[i] == 0)
                     continue;
 
-                mini = masalar[i];
+                miniH = hotdogMasa[i];
                 break;
             }
 
             for (i = 0; i < activeTable; i++)
             {
-                if (tables[i].isCustomerArrived)
+                if (pizzaMasa[i] == -1 || pizzaMasa[i] == 0)
+                    continue;
+
+                miniP = pizzaMasa[i];
+                break;
+            }
+
+            if (objTransform.parent.GetChild(this.index).CompareTag("Sosisli"))
+            {
+                for (i = 0; i < activeTable; i++)
                 {
-                    if (tables[i].burgerNeeded - tables[i].burgerGived == mini)
+                    if (tables[i].isCustomerArrived)
                     {
-                        index = i;
+                        if (tables[i].hotdogNeeded - tables[i].hotdogGived == miniH)
+                        {
+                            index = i;
+                        }
                     }
                 }
             }
+
+            else
+            {
+                for (i = 0; i < activeTable; i++)
+                {
+                    if (tables[i].isCustomerArrived)
+                    {
+                        if (tables[i].pizzaNeeded - tables[i].pizzaGived == miniP)
+                        {
+                            index = i;
+                        }
+                    }
+                }
+            }
+
 
         }
 
