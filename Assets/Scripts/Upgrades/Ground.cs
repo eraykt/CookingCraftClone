@@ -15,6 +15,8 @@ public abstract class Ground : MonoBehaviour
 
     public Coroutine putcoin;
 
+    float speed = 0;
+
     private void OnTriggerEnter(Collider col)
     {
         if (col.CompareTag("Player"))
@@ -51,6 +53,7 @@ public abstract class Ground : MonoBehaviour
                 area.transform.localScale = area.transform.localScale / size;
                 text.transform.localScale = text.transform.localScale / size;
                 StopCoroutine(putcoin);
+                speed = 0;
             }
 
             if (putcoin != null && jobDone)
@@ -74,10 +77,11 @@ public abstract class Ground : MonoBehaviour
                     {
                         GameManager.Instance.coin--;
                         currentCoin++;
+                        speed += 0.002f;
                     }
                 }
             }
-            yield return new WaitForSeconds(0.25f);
+            yield return new WaitForSeconds(0.15f - speed);
         }
 
     }

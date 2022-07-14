@@ -38,7 +38,7 @@ public class PlayerUpgrade : Ground
             }
         }
 
-        text.text = $"{currentCoin}/{neededCoin}";
+        text.text = $"{neededCoin - currentCoin}";
     }
 
 
