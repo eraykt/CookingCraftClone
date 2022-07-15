@@ -4,19 +4,32 @@ using UnityEngine;
 
 public class CoinControl : MonoBehaviour
 {
-    public bool isHittedToPlayer { get; private set; }
-    public void MoveToPlayer()
+    bool isHittedToPlayer;
+
+    public bool move { get; set; }
+
+    Transform player;
+
+    private void Awake()
     {
-        Vector3.Lerp(transform.position, GameObject.FindGameObjectWithTag("Player").transform.position, 0.5f);
+        player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    if (other.CompareTag("Player"))
-    //    {
-    //        isHittedToPlayer = true;
-    //    }
-    //}
+
+    private void Update()
+    {
+        if (move)
+            MoveToPlayer();
+    }
+
+    public void MoveToPlayer()
+    {
+        transform.position = Vector3.Lerp(transform.position, player.position + (Vector3.up / 2), GameManager.Instance.coinspeed * Time.deltaTime);
+        transform.localScale = Vector3.Lerp(transform.localScale, Vector3.zero, GameManager.Instance.coinspeed * Time.deltaTime);
+       
+        if (isHittedToPlayer)
+            Destroy(gameObject);
+    }
 
     private void OnCollisionEnter(Collision collision)
     {

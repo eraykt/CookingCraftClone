@@ -24820,6 +24820,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4861903728089695655, guid: 798c3e4eb7e06ab439bf687e176d58f8, type: 3}
+      propertyPath: coinspeed
+      value: 7.5
+      objectReference: {fileID: 0}
     - target: {fileID: 4861903728089695656, guid: 798c3e4eb7e06ab439bf687e176d58f8, type: 3}
       propertyPath: m_Name
       value: '[Game Manager]'

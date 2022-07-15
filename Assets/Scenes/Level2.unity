@@ -2412,6 +2412,7 @@ MonoBehaviour:
   generatingSpeed: 0.5
   collectingSpeed: 0.2
   puttingSpeed: 0.2
+  coinspeed: 7.5
 --- !u!4 &216319593
 Transform:
   m_ObjectHideFlags: 0
@@ -15823,15 +15824,15 @@ Transform:
   - {fileID: 1062261259}
   - {fileID: 718710727}
   - {fileID: 1443554963}
+  - {fileID: 1561473560}
   - {fileID: 243293794}
   - {fileID: 1152306362}
   - {fileID: 2023853178}
   - {fileID: 1185335018}
   - {fileID: 555242951}
   - {fileID: 1785249732}
-  - {fileID: 1561473560}
-  - {fileID: 123552171}
   - {fileID: 181532142}
+  - {fileID: 123552171}
   - {fileID: 1131523176}
   - {fileID: 1242825309}
   - {fileID: 704991681}

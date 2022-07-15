@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public float collectingSpeed = 0.2f;
     public float puttingSpeed = 0.2f;
 
+    public float coinspeed = 7.5f;
 
     private void Awake()
     {
@@ -32,6 +33,6 @@ public class GameManager : MonoBehaviour
         }
 
         else
-            Destroy(this.gameObject);        
+            Destroy(this.gameObject);
     }
 }
