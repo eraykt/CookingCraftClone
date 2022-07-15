@@ -20,7 +20,7 @@ public class LevelUp : Ground
             ComplateLevel();
         }
 
-        text.text = $"{currentCoin}/{neededCoin}";
+        text.text = $"{neededCoin - currentCoin}";
 
     }
 

@@ -134,7 +134,7 @@ public class Waitress : MonoBehaviour
         int miniH = -1;
         int miniP = -1;
 
-        if (activeTable != tables.Length)
+        if (activeTable != 3)
         {
             foreach (TableOrder to in tables)
                 if (to.gameObject.activeSelf)
@@ -220,6 +220,7 @@ public class Waitress : MonoBehaviour
                 index = 0;
         }
 
+        activeTable = 0;
         return index;
 
 

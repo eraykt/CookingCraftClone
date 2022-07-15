@@ -21,6 +21,8 @@ public class tableScript : MonoBehaviour
     [SerializeField]
     private Vector3 scaleChange;
 
+    float coinSpeed;
+
     void Start()
     {
         scaleChange = new Vector3(1, 0, 1);
@@ -33,7 +35,7 @@ public class tableScript : MonoBehaviour
             BuildTable();
         }
 
-        text.text = $"{tableCoin}/{gerekliCoin}";
+        text.text = $"{gerekliCoin - tableCoin}";
     }
     private void OnTriggerEnter(Collider col)
     {
@@ -61,6 +63,7 @@ public class tableScript : MonoBehaviour
                 Table.transform.localScale = scaleChange;
                 text.transform.localScale = text.transform.localScale / 2;
                 StopCoroutine(putcoin);
+                coinSpeed = 0;
             }
 
             if (putcoin != null && jobDone)
@@ -124,11 +127,12 @@ public class tableScript : MonoBehaviour
                     {
                         GameManager.Instance.coin--;
                         tableCoin++;
+                        coinSpeed += 0.002f;
                     }
                 }
 
             }
-            yield return new WaitForSeconds(0.25f);
+            yield return new WaitForSeconds(0.15f - coinSpeed);
         }
 
     }

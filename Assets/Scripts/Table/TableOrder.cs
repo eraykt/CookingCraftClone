@@ -134,14 +134,16 @@ public class TableOrder : MonoBehaviour
             {
                 timeToCollectCoin = false;
 
+                //StartCoroutine(CoinMove());
+
                 for (int i = 0; i < (burgerNeeded * 2) + hotdogNeeded + pizzaNeeded; i++)
-                    Destroy(coins[i]);
+                {
+                    //coins[i].GetComponent<CoinControl>().MoveToPlayer();
+                    //if (coins[i].GetComponent<CoinControl>().isHittedToPlayer)
+                        Destroy(coins[i]);
+                }
 
-                GameManager.Instance.coin += (burgerNeeded * 2) + hotdogNeeded + pizzaNeeded;
 
-                coins.Clear();
-                customers.Clear();
-                table.ClearTable(tableNumber);
             }
         }
 
@@ -304,8 +306,6 @@ public class TableOrder : MonoBehaviour
 
         StartCoroutine(CoinRain((burgerNeeded * 2) + hotdogNeeded + pizzaNeeded));
 
-
-
         yield return null;
     }
 
@@ -329,5 +329,23 @@ public class TableOrder : MonoBehaviour
         burgerNeeded = table.burgerOrder[tableNumber];
         pizzaNeeded = table.pizzaOrder[tableNumber];
         hotdogNeeded = table.hotdogOrder[tableNumber];
+    }
+
+    IEnumerator CoinMove()
+    {
+        for (int i = 0; i < (burgerNeeded * 2) + hotdogNeeded + pizzaNeeded; i++)
+        {
+            coins[i].GetComponent<CoinControl>().MoveToPlayer();
+            if (coins[i].GetComponent<CoinControl>().isHittedToPlayer)
+                Destroy(coins[i]);
+
+            yield return new WaitForSeconds(0.5f);
+        }
+        GameManager.Instance.coin += (burgerNeeded * 2) + hotdogNeeded + pizzaNeeded;
+
+        coins.Clear();
+        customers.Clear();
+        table.ClearTable(tableNumber);
+        yield return null;
     }
 }
