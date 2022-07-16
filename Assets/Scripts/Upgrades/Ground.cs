@@ -15,14 +15,8 @@ public abstract class Ground : MonoBehaviour
 
     public Coroutine putcoin;
 
-    AudioSource coinSound;
-
     float speed = 0;
 
-    private void Awake()
-    {
-        coinSound = GetComponent<AudioSource>();
-    }
 
     private void OnTriggerEnter(Collider col)
     {
@@ -82,10 +76,6 @@ public abstract class Ground : MonoBehaviour
                 {
                     if (GameManager.Instance.coin > 0)
                     {
-                        if (!coinSound.isPlaying)
-                            coinSound.Play();
-
-
                         GameManager.Instance.coin--;
                         currentCoin++;
                         speed += 0.002f;

@@ -340,7 +340,6 @@ public class TableOrder : MonoBehaviour
 
         }
         GameManager.Instance.coin += (burgerNeeded * 2) + hotdogNeeded + pizzaNeeded;
-        Debug.Log(GameManager.Instance.coin);
         coins.Clear();
         customers.Clear();
         table.ClearTable(tableNumber);

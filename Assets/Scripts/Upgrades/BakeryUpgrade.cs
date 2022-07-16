@@ -22,7 +22,7 @@ public class BakeryUpgrade : Ground
             MakeUpgrade();
         }
 
-        text.text = $"{currentCoin}/{neededCoin}";
+        text.text = $"{neededCoin - currentCoin}";
     }
 
 

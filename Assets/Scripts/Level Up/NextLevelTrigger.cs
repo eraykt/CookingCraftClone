@@ -9,6 +9,7 @@ public class NextLevelTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            GameManager.Instance.coin += 10;
             StartCoroutine(loading());
         }
     }
